@@ -24,6 +24,25 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   // 3. Build context from retrieved chunks
   const context = relevant.map((r) => r.chunk).join("\n\n---\n\n");
 
+  // Fire-and-forget: track retrieved chunks as "chat_review"
+  // Uses internal fetch to the track endpoint
+  const origin = new URL(req.url).origin;
+  for (const r of relevant) {
+    if ((r as Record<string, unknown>).id) {
+      fetch(`${origin}/api/recall/track`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          cookie: req.headers.get("cookie") ?? "",
+        },
+        body: JSON.stringify({
+          noteChunkId: (r as Record<string, unknown>).id,
+          event: "chat_review",
+        }),
+      }).catch(() => { });
+    }
+  }
+
   // 4. Build system prompt
   const systemPrompt = `You are a helpful study assistant. Answer the student's question using ONLY the context from their notes below. If the answer isn't in the notes, say "I couldn't find that in these notes."
 

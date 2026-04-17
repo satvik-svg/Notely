@@ -1,11 +1,12 @@
 "use client";
-import { BookOpen, Users, Trophy, Upload, Home } from "lucide-react";
+import { BookOpen, Users, Trophy, Upload, Home, Brain } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 
 const navItems = [
   { href: "/dashboard", icon: Home, label: "Dashboard" },
+  { href: "/revision", icon: Brain, label: "Revision" },
   { href: "/notes", icon: BookOpen, label: "Browse Notes" },
   { href: "/notes/upload", icon: Upload, label: "Upload Notes" },
   { href: "/groups", icon: Users, label: "Study Groups" },
@@ -64,8 +65,8 @@ export function Sidebar() {
             <p className="text-[10px] font-body text-brand-500">⬆ {karma} karma</p>
           </div>
         </div>
-        
-        <button 
+
+        <button
           onClick={() => signOut()}
           className="w-full flex items-center gap-2 text-xs font-body text-slate-400 hover:text-red-500 transition-colors px-1"
         >
