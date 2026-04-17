@@ -44,6 +44,16 @@ export function MCQQuiz({ noteId }: Readonly<{ noteId: string }>) {
     if (selected !== null) return; // already answered
     setSelected(idx);
     if (idx === mcqs[current].answer) setScore((s) => s + 1);
+
+    // Fire-and-forget: track recall event
+    fetch("/api/recall/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        noteId,
+        event: idx === mcqs[current].answer ? "correct" : "wrong",
+      }),
+    }).catch(() => { });
   };
 
   const next = () => {

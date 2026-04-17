@@ -30,6 +30,7 @@ model User {
   groupMemberships GroupMember[]
   accounts  Account[]
   sessions  Session[]
+  memories  UserConceptMemory[]
 }
 
 model Note {
@@ -160,4 +161,17 @@ model NoteEmbedding {
   createdAt DateTime @default(now())
 }
 
+model UserConceptMemory {
+  id              String   @id @default(cuid())
+  userId          String
+  noteChunkId     String
+  strengthScore   Float    @default(0.5)
+  lastReviewedAt  DateTime @default(now())
+  nextReviewAt    DateTime
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, noteChunkId])
+  @@index([nextReviewAt])
+}
 
