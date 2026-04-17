@@ -1,55 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notely
 
-## Getting Started
+Notely is a collaborative notes platform built with Next.js, Prisma, and PostgreSQL.
+It supports file-based notes (PDF/image/text), real-time discussions, AI study tools, and leaderboard/group features.
 
-First, run the development server:
+## Core Features
+
+- Authentication with NextAuth (credentials + Prisma adapter)
+- Upload and share notes (PDF, image, text)
+- AI summary generation and MCQ quiz generation
+- RAG-style chat on indexed note content
+- Real-time note discussion (Pusher)
+- Tags suggestion, groups, upvotes, and leaderboard
+- CI/CD with GitHub Actions and Vercel deployment
+
+## Tech Stack
+
+- Framework: Next.js 16 (App Router), React 19, TypeScript
+- Database: PostgreSQL (Neon), Prisma ORM
+- Auth: NextAuth
+- Realtime: Pusher
+- AI: Google Generative AI (Gemini)
+- UI: Tailwind CSS, Framer Motion, shadcn/ui
+
+## Project Structure
+
+```text
+src/
+	app/                 # Pages + API routes (App Router)
+	components/          # UI and feature components
+	lib/                 # Auth, DB, AI, helpers, services
+prisma/
+	schema.prisma        # Data models
+.github/workflows/
+	ci-cd.yml            # CI/CD pipeline
+```
+
+## Prerequisites
+
+- Node.js 20+
+- npm 10+
+- PostgreSQL database (Neon or local)
+- (Optional) Vercel account for deployment
+
+## Environment Variables
+
+Create a `.env` file in project root.
+
+Required for core app:
+
+- `DATABASE_URL`
+- `DIRECT_URL`
+- `NEXTAUTH_URL`
+- `NEXTAUTH_SECRET`
+
+Required for realtime:
+
+- `PUSHER_APP_ID`
+- `PUSHER_KEY`
+- `PUSHER_SECRET`
+- `PUSHER_CLUSTER`
+- `NEXT_PUBLIC_PUSHER_KEY`
+- `NEXT_PUBLIC_PUSHER_CLUSTER`
+
+Required for AI features (true AI mode):
+
+- `GOOGLE_API_KEY`
+
+Required if using UploadThing provider route:
+
+- `UPLOADTHING_SECRET`
+- `UPLOADTHING_APP_ID`
+
+Notes:
+
+- If `GOOGLE_API_KEY` is missing/invalid, AI routes return fallback responses.
+- `.env*` and `.vercel/` are ignored by git.
+
+## Local Development
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Sync Prisma schema to database
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+3. Start development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open app
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`http://localhost:3000`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+- `npm run dev` - Run local dev server
+- `npm run build` - Production build check
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-To learn more about Next.js, take a look at the following resources:
+## API Overview
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Main route groups:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `api/auth/*` - Registration and NextAuth
+- `api/notes/*` - Note CRUD, summary, MCQ, chat, comments, upvotes
+- `api/groups/*` - Group list/create/join
+- `api/leaderboard` - Leaderboard data
+- `api/tags/suggest` - Tag suggestions
+- `api/files/[filename]` - Locally uploaded file serving
 
-## Deploy on Vercel
+## CI/CD
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Workflow file: `.github/workflows/ci-cd.yml`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- CI: runs on push/PR and executes build validation
+- CD: runs on `main` push after CI and deploys to Vercel
 
-## CI/CD Pipeline
-
-This repository includes a GitHub Actions workflow at [.github/workflows/ci-cd.yml](.github/workflows/ci-cd.yml).
-
-### What it does
-
-- CI runs on every push and pull request, installs dependencies, and runs `npm run build`.
-- CD runs after CI on `main` branch pushes and deploys to Vercel.
-
-### Required GitHub Secrets
-
-Add these in your repository settings under `Settings -> Secrets and variables -> Actions`:
+GitHub Actions secrets required for CD:
 
 - `VERCEL_TOKEN`
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
 
-If these secrets are not set, the deploy job is automatically skipped while CI still runs.
+`VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` can be read from `.vercel/project.json` after running `vercel link` locally.
+
+## Deployment (Vercel)
+
+1. Import repository in Vercel
+2. Add application environment variables in Vercel Project Settings
+3. Push to `main` or run workflow manually from GitHub Actions
+
+## Troubleshooting
+
+- AI endpoint returns fallback:
+	Check `GOOGLE_API_KEY` format and validity.
+
+- Vercel deploy error `Project not found` in CI:
+	Verify `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` exactly match `.vercel/project.json` and contain no extra spaces/quotes.
+
+- Dev server says port is in use:
+	Stop existing process or run with another port.
+
+## Security Notes
+
+- Never commit `.env` files or production credentials.
+- Rotate keys immediately if shared accidentally.
