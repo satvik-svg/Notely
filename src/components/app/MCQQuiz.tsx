@@ -83,12 +83,12 @@ export function MCQQuiz({ noteId }: Readonly<{ noteId: string }>) {
 
   if (!mcqs.length) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 dark:bg-slate-900 dark:border-slate-800">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[10px] bg-purple-50 text-purple-600 font-body font-medium px-2 py-0.5 rounded-md">AI QUIZ</span>
-          <h3 className="font-display font-semibold text-slate-800 text-sm">Test yourself</h3>
+          <h3 className="font-display font-semibold text-slate-800 text-sm dark:text-slate-200">Test yourself</h3>
         </div>
-        <p className="text-xs font-body text-slate-400 mb-3">Auto-generated MCQs from this note.</p>
+        <p className="text-xs font-body text-slate-400 mb-3 dark:text-slate-500">Auto-generated MCQs from this note.</p>
         <button onClick={generate} disabled={loading}
           className="text-xs font-body font-medium bg-brand-500 text-white px-4 py-2 rounded-xl hover:bg-brand-600 disabled:opacity-50">
           {loading ? "Generating questions..." : "Generate MCQ quiz ✦"}
@@ -99,9 +99,9 @@ export function MCQQuiz({ noteId }: Readonly<{ noteId: string }>) {
 
   if (done) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 text-center">
-        <p className="font-display font-bold text-2xl text-slate-900">{score}/{mcqs.length}</p>
-        <p className="text-sm font-body text-slate-500 mt-1">{getResultMessage()}</p>
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 text-center dark:bg-slate-900 dark:border-slate-800">
+        <p className="font-display font-bold text-2xl text-slate-900 dark:text-slate-100">{score}/{mcqs.length}</p>
+        <p className="text-sm font-body text-slate-500 mt-1 dark:text-slate-400">{getResultMessage()}</p>
         <button onClick={() => { setMcqs([]); setCurrent(0); setSelected(null); setScore(0); setDone(false); }}
           className="mt-4 text-xs font-body text-brand-500 hover:text-brand-600">
           Try again
@@ -112,19 +112,18 @@ export function MCQQuiz({ noteId }: Readonly<{ noteId: string }>) {
 
   const q = mcqs[current];
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 dark:bg-slate-900 dark:border-slate-800">
       <div className="flex items-center justify-between mb-3">
         <span className="text-[10px] bg-purple-50 text-purple-600 font-body font-medium px-2 py-0.5 rounded-md">AI QUIZ</span>
-        <span className="text-xs font-body text-slate-400">{current + 1} / {mcqs.length}</span>
+        <span className="text-xs font-body text-slate-400 dark:text-slate-500">{current + 1} / {mcqs.length}</span>
       </div>
-      <p className="text-sm font-display font-semibold text-slate-800 mb-4 leading-snug">{q.question}</p>
+      <p className="text-sm font-display font-semibold text-slate-800 mb-4 leading-snug dark:text-slate-200">{q.question}</p>
       <div className="space-y-2 mb-4">
         {q.options.map((opt, idx) => {
           const optionClassName = getOptionClassName(idx, q.answer, selected);
           return (
             <button key={`${q.question}-${opt}`} onClick={() => choose(idx)}
-              className={`w-full text-left text-xs font-body px-3 py-2.5 rounded-xl border transition-all
-                ${optionClassName}`}>
+              className={`w-full text-left text-xs font-body px-3 py-2.5 rounded-xl border transition-all ${optionClassName}`}>
               {opt}
             </button>
           );
@@ -132,7 +131,7 @@ export function MCQQuiz({ noteId }: Readonly<{ noteId: string }>) {
       </div>
       {selected !== null && (
         <>
-          <p className="text-xs font-body text-slate-500 bg-slate-50 rounded-xl p-3 mb-3">{q.explanation}</p>
+          <p className="text-xs font-body text-slate-500 bg-slate-50 rounded-xl p-3 mb-3 dark:bg-slate-800 dark:text-slate-400">{q.explanation}</p>
           <button onClick={next} className="text-xs font-body font-medium text-brand-500 hover:text-brand-600">
             {current + 1 >= mcqs.length ? "See results →" : "Next question →"}
           </button>

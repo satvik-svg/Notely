@@ -35,39 +35,35 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
     <motion.div
       whileHover={{ y: -2 }}
       transition={{ duration: 0.15 }}
-      className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 
-                 hover:shadow-float hover:border-slate-200 transition-all cursor-pointer"
+      className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 hover:shadow-float hover:border-slate-200 transition-all cursor-pointer dark:bg-slate-900 dark:border-slate-800"
     >
       <Link href={`/notes/${id}`} className="block">
         {/* File type indicator + subject */}
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-body text-slate-400 uppercase tracking-wider">
+          <span className="text-xs font-body text-slate-400 uppercase tracking-wider dark:text-slate-500">
             {subject}
           </span>
           <span
-            className={`text-xs font-body font-medium px-2 py-0.5 rounded-md
-            ${fileType === "pdf" ? "bg-red-50 text-red-600" : 
-              fileType === "image" ? "bg-purple-50 text-purple-600" : 
-              "bg-slate-50 text-slate-600"}`}
+            className={`text-xs font-body font-medium px-2 py-0.5 rounded-md ${fileType === "pdf" ? "bg-red-50 text-red-600" : fileType === "image" ? "bg-purple-50 text-purple-600" : "bg-slate-50 text-slate-600"}`}
           >
             {fileType.toUpperCase()}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="font-display font-semibold text-slate-900 text-sm mb-1 line-clamp-2 leading-snug">
+        <h3 className="font-display font-semibold text-slate-900 text-sm mb-1 line-clamp-2 leading-snug dark:text-slate-100">
           {title}
         </h3>
 
         {/* Uploader */}
-        <p className="text-xs font-body text-slate-400 mb-3">by {author.name} · {new Date(createdAt).toLocaleDateString()}</p>
+        <p className="text-xs font-body text-slate-400 mb-3 dark:text-slate-500">by {author.name} · {new Date(createdAt).toLocaleDateString()}</p>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-xs font-body text-brand-600 bg-brand-50 px-2 py-0.5 rounded-lg"
+              className="text-xs font-body text-brand-600 bg-brand-50 px-2 py-0.5 rounded-lg dark:bg-slate-800"
             >
               {tag}
             </span>
@@ -76,21 +72,19 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
       </Link>
 
       {/* Footer stats */}
-      <div className="flex items-center gap-4 pt-3 border-t border-slate-50">
+      <div className="flex items-center gap-4 pt-3 border-t border-slate-50 dark:border-slate-800/50">
         <button 
           onClick={handleUpvote}
-          className="flex items-center gap-1.5 text-xs font-body text-slate-400 
-                           hover:text-brand-500 transition-colors group">
+          className="flex items-center gap-1.5 text-xs font-body text-slate-400 hover:text-brand-500 transition-colors group dark:text-slate-500">
           <ThumbsUp size={13} className="group-hover:scale-110 transition-transform" />
           {upvoteCount}
         </button>
-        <button className="flex items-center gap-1.5 text-xs font-body text-slate-400 
-                           hover:text-brand-500 transition-colors">
+        <button className="flex items-center gap-1.5 text-xs font-body text-slate-400 hover:text-brand-500 transition-colors dark:text-slate-500">
           <MessageCircle size={13} />
           {_count.comments}
         </button>
 
-        <button className="ml-auto text-xs font-body text-slate-400 hover:text-slate-600">
+        <button className="ml-auto text-xs font-body text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">
           <Download size={13} />
         </button>
       </div>

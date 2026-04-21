@@ -9,8 +9,7 @@ export function Navbar() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between 
-                 px-8 py-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800"
     >
       {/* Logo */}
       <div className="flex items-center gap-2">
@@ -41,8 +40,7 @@ export function Navbar() {
         </Link>
         <Link
           href="/signup"
-          className="text-sm bg-brand-500 text-white px-4 py-2 rounded-xl 
-                     hover:bg-brand-600 transition-colors font-body font-medium shadow-sm"
+          className="text-sm bg-brand-500 text-white px-4 py-2 rounded-xl hover:bg-brand-600 transition-colors font-body font-medium shadow-sm"
         >
           Get started
         </Link>

@@ -36,32 +36,31 @@ export function AISummaryPanel({ noteId }: Readonly<{ noteId: string }>) {
   const { summary, loading, generate } = useSummary(noteId);
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 dark:bg-slate-900 dark:border-slate-800">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 bg-brand-100 rounded-md flex items-center justify-center">
             <span className="text-brand-600 text-[10px]">AI</span>
           </div>
-          <h3 className="font-display font-semibold text-slate-800 text-sm">AI Summary</h3>
+          <h3 className="font-display font-semibold text-slate-800 text-sm dark:text-slate-200">AI Summary</h3>
         </div>
         {!summary && (
           <button
             onClick={generate}
             disabled={loading}
-            className="text-xs font-body font-medium text-brand-500 hover:text-brand-600
-                       bg-brand-50 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+            className="text-xs font-body font-medium text-brand-500 hover:text-brand-600 bg-brand-50 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 dark:bg-slate-800"
           >
             {loading ? "Generating..." : "Generate ✦"}
           </button>
         )}
       </div>
       {summary && (
-        <div className="text-xs font-body text-slate-600 leading-relaxed whitespace-pre-wrap">
+        <div className="text-xs font-body text-slate-600 leading-relaxed whitespace-pre-wrap dark:text-slate-400">
           {summary}
         </div>
       )}
       {!summary && !loading && (
-        <p className="text-xs font-body text-slate-400">
+        <p className="text-xs font-body text-slate-400 dark:text-slate-500">
           Get an AI-powered TL;DR of this note in seconds.
         </p>
       )}
