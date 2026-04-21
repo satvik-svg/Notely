@@ -12,7 +12,7 @@ function FloatingCard({ children, className, delay = 0, rotate = 0 }: { children
       // Subtle hover float
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
       style={{ rotate: `${rotate}deg` }}
-      className={`bg-white rounded-2xl shadow-float p-4 ${className}`}
+      className={`bg-white rounded-2xl shadow-float p-4 ${className} dark:bg-slate-900`}
     >
       {children}
     </motion.div>
@@ -22,8 +22,7 @@ function FloatingCard({ children, className, delay = 0, rotate = 0 }: { children
 export function HeroSection() {
   return (
     <section
-      className="relative min-h-[95vh] flex items-center justify-center overflow-hidden
-                 bg-dot-grid bg-surface-secondary pt-20 pb-20"
+      className="relative min-h-[95vh] flex items-center justify-center overflow-hidden bg-dot-grid bg-surface-secondary pt-20 pb-20 dark:bg-slate-950"
     >
       {/* Floating card — top left (like the sticky note in reference) */}
       <FloatingCard
@@ -44,12 +43,12 @@ export function HeroSection() {
         delay={0.4}
         rotate={2}
       >
-        <p className="text-xs font-display font-semibold text-slate-700 mb-2">Recent uploads</p>
+        <p className="text-xs font-display font-semibold text-slate-700 mb-2 dark:text-slate-300">Recent uploads</p>
         <div className="space-y-2">
           {["DBMS Unit 3", "OS Memory Mgmt", "CN TCP/IP"].map((note) => (
             <div key={note} className="flex items-center gap-2">
               <div className="w-2 h-2 bg-brand-400 rounded-full" />
-              <span className="text-xs text-slate-600 font-body">{note}</span>
+              <span className="text-xs text-slate-600 font-body dark:text-slate-400">{note}</span>
             </div>
           ))}
         </div>
@@ -61,13 +60,13 @@ export function HeroSection() {
         delay={0.5}
         rotate={2}
       >
-        <p className="text-xs text-slate-500 font-body mb-1">Top contributor</p>
+        <p className="text-xs text-slate-500 font-body mb-1 dark:text-slate-400">Top contributor</p>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
             <span className="text-xs font-display font-bold text-brand-600">SK</span>
           </div>
           <div>
-            <p className="text-xs font-display font-semibold text-slate-800">Satvik Kumar</p>
+            <p className="text-xs font-display font-semibold text-slate-800 dark:text-slate-200">Satvik Kumar</p>
             <p className="text-xs text-brand-500 font-body">⬆ 342 karma</p>
           </div>
         </div>
@@ -79,19 +78,18 @@ export function HeroSection() {
         delay={0.5}
         rotate={-2}
       >
-        <p className="text-xs font-display font-semibold text-slate-700 mb-2">Active groups</p>
+        <p className="text-xs font-display font-semibold text-slate-700 mb-2 dark:text-slate-300">Active groups</p>
         <div className="flex -space-x-1">
           {["CS", "EC", "ME", "CE"].map((dept) => (
             <div
               key={dept}
-              className="w-7 h-7 bg-brand-500 rounded-full border-2 border-white 
-                         flex items-center justify-center"
+              className="w-7 h-7 bg-brand-500 rounded-full border-2 border-white flex items-center justify-center"
             >
               <span className="text-white text-[9px] font-display font-bold">{dept}</span>
             </div>
           ))}
-          <div className="w-7 h-7 bg-slate-100 rounded-full border-2 border-white flex items-center justify-center">
-            <span className="text-slate-500 text-[9px] font-body">+12</span>
+          <div className="w-7 h-7 bg-slate-100 rounded-full border-2 border-white flex items-center justify-center dark:bg-slate-800">
+            <span className="text-slate-500 text-[9px] font-body dark:text-slate-400">+12</span>
           </div>
         </div>
       </FloatingCard>
@@ -104,7 +102,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex flex-col items-center"
         >
-          <div className="mb-8 p-3 bg-white rounded-2xl shadow-float-md inline-block">
+          <div className="mb-8 p-3 bg-white rounded-2xl shadow-float-md inline-block dark:bg-slate-900">
             <div className="flex grid-cols-2 gap-1 items-center justify-center relative">
               <span className="w-4 h-4 rounded-full bg-brand-400"></span>
               <span className="w-4 h-4 rounded-full bg-slate-800"></span>
@@ -114,12 +112,12 @@ export function HeroSection() {
           </div>
 
           {/* Main headline — large, bold, display font */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 leading-[1.05] tracking-tight mb-4 max-w-3xl">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 leading-[1.05] tracking-tight mb-4 max-w-3xl dark:text-slate-100">
             Think, plan, and track <br/>
             <span className="text-slate-300">all in one place</span>
           </h1>
 
-          <p className="font-body text-slate-600 md:text-lg mb-8 max-w-lg mx-auto leading-relaxed mt-4">
+          <p className="font-body text-slate-600 md:text-lg mb-8 max-w-lg mx-auto leading-relaxed mt-4 dark:text-slate-400">
             Upload, discover, and discuss study materials. Earn karma for great contributions.
             Chat with peers under every note.
           </p>
@@ -128,9 +126,7 @@ export function HeroSection() {
           <div className="flex items-center justify-center gap-4">
             <a
               href="/signup"
-              className="bg-brand-500 text-white font-body font-medium text-[15px] 
-                         px-7 py-3.5 rounded-xl hover:bg-brand-600 transition-all 
-                         shadow-float hover:shadow-float-md active:scale-[0.98]"
+              className="bg-brand-500 text-white font-body font-medium text-[15px] px-7 py-3.5 rounded-xl hover:bg-brand-600 transition-all shadow-float hover:shadow-float-md active:scale-[0.98]"
             >
               Get free demo
             </a>

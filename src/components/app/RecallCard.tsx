@@ -98,7 +98,7 @@ export function RecallCard({
                         className={`text-purple-400 transition-transform ${flipped ? "rotate-90" : ""}`}
                     />
                 </div>
-                <p className="text-xs font-body text-slate-700 leading-relaxed">
+                <p className="text-xs font-body text-slate-700 leading-relaxed dark:text-slate-300">
                     {flipped ? content.flashcard.answer : content.flashcard.question}
                 </p>
                 <p className="text-[10px] font-body text-purple-400 mt-2">
@@ -110,9 +110,9 @@ export function RecallCard({
             {content.mcqs.map((mcq, mi) => (
                 <div
                     key={`recall-mcq-${mi}`}
-                    className="bg-white rounded-xl border border-slate-100 p-3"
+                    className="bg-white rounded-xl border border-slate-100 p-3 dark:bg-slate-900 dark:border-slate-800"
                 >
-                    <p className="text-xs font-display font-semibold text-slate-800 mb-2 leading-snug">
+                    <p className="text-xs font-display font-semibold text-slate-800 mb-2 leading-snug dark:text-slate-200">
                         {mcq.question}
                     </p>
                     <div className="space-y-1.5">
@@ -139,7 +139,7 @@ export function RecallCard({
                         })}
                     </div>
                     {mcqSelected[mi] !== undefined && (
-                        <p className="text-[11px] font-body text-slate-500 bg-slate-50 rounded-lg p-2 mt-2">
+                        <p className="text-[11px] font-body text-slate-500 bg-slate-50 rounded-lg p-2 mt-2 dark:bg-slate-800 dark:text-slate-400">
                             {mcq.explanation}
                         </p>
                     )}
@@ -147,18 +147,18 @@ export function RecallCard({
             ))}
 
             {/* Short Answer */}
-            <div className="bg-slate-50 rounded-xl border border-slate-100 p-3">
-                <p className="text-[10px] font-body font-medium text-slate-400 uppercase tracking-wider mb-1">
+            <div className="bg-slate-50 rounded-xl border border-slate-100 p-3 dark:bg-slate-800 dark:border-slate-800">
+                <p className="text-[10px] font-body font-medium text-slate-400 uppercase tracking-wider mb-1 dark:text-slate-500">
                     Short Answer
                 </p>
-                <p className="text-xs font-body text-slate-700 leading-relaxed">
+                <p className="text-xs font-body text-slate-700 leading-relaxed dark:text-slate-300">
                     {content.shortAnswer.question}
                 </p>
                 <details className="mt-2">
                     <summary className="text-[10px] font-body text-brand-500 cursor-pointer hover:text-brand-600">
                         Show sample answer
                     </summary>
-                    <p className="text-[11px] font-body text-slate-500 mt-1 leading-relaxed">
+                    <p className="text-[11px] font-body text-slate-500 mt-1 leading-relaxed dark:text-slate-400">
                         {content.shortAnswer.sampleAnswer}
                     </p>
                 </details>
@@ -168,7 +168,7 @@ export function RecallCard({
             <button
                 onClick={generate}
                 disabled={loading}
-                className="text-[10px] font-body text-slate-400 hover:text-brand-500 transition-colors"
+                className="text-[10px] font-body text-slate-400 hover:text-brand-500 transition-colors dark:text-slate-500"
             >
                 ↻ Generate new recall content
             </button>

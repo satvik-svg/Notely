@@ -71,31 +71,31 @@ export default function UploadPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="font-display font-bold text-2xl text-slate-900">Upload Notes</h1>
-        <p className="text-sm font-body text-slate-500">Share your material and earn karma!</p>
+        <h1 className="font-display font-bold text-2xl text-slate-900 dark:text-slate-100">Upload Notes</h1>
+        <p className="text-sm font-body text-slate-500 dark:text-slate-400">Share your material and earn karma!</p>
       </div>
       
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-6">
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-6 dark:bg-slate-900 dark:border-slate-800">
         <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); handleUpload(); }}>
           <div className="space-y-2">
-             <label htmlFor="note-title" className="text-sm font-display font-semibold text-slate-700">Title</label>
+             <label htmlFor="note-title" className="text-sm font-display font-semibold text-slate-700 dark:text-slate-300">Title</label>
              <input 
                id="note-title"
                type="text" 
                placeholder="e.g. Operating Systems Unit 1 Summary" 
                value={title}
                onChange={(e) => setTitle(e.target.value)}
-               className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+               className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all dark:bg-slate-800 dark:border-slate-800"
              />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="note-subject" className="text-sm font-display font-semibold text-slate-700">Subject</label>
+            <label htmlFor="note-subject" className="text-sm font-display font-semibold text-slate-700 dark:text-slate-300">Subject</label>
             <select 
               id="note-subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+              className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all dark:bg-slate-800 dark:border-slate-800"
             >
               {["DBMS", "OS", "CN", "DSA", "Maths", "Physics", "Chemistry"].map(s => (
                 <option key={s} value={s}>{s}</option>
@@ -104,20 +104,20 @@ export default function UploadPage() {
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm font-display font-semibold text-slate-700">Tags</p>
+            <p className="text-sm font-display font-semibold text-slate-700 dark:text-slate-300">Tags</p>
             <SmartTagInput tags={tags} setTags={setTags} noteTitle={title} />
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm font-display font-semibold text-slate-700">File</p>
-            <div className="border-2 border-dashed border-slate-200 rounded-2xl p-6 bg-slate-50">
+            <p className="text-sm font-display font-semibold text-slate-700 dark:text-slate-300">File</p>
+            <div className="border-2 border-dashed border-slate-200 rounded-2xl p-6 bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
               <label
                 htmlFor="note-file"
-                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-center hover:border-brand-300"
+                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-center hover:border-brand-300 dark:bg-slate-900 dark:border-slate-700"
               >
-                <UploadCloud size={24} className="mb-2 text-slate-400" />
-                <p className="text-sm font-body font-medium text-slate-700">Click to choose a file</p>
-                <p className="text-xs font-body text-slate-400 mt-1">PDF, PNG, JPG, JPEG, WEBP, TXT up to 16MB</p>
+                <UploadCloud size={24} className="mb-2 text-slate-400 dark:text-slate-500" />
+                <p className="text-sm font-body font-medium text-slate-700 dark:text-slate-300">Click to choose a file</p>
+                <p className="text-xs font-body text-slate-400 mt-1 dark:text-slate-500">PDF, PNG, JPG, JPEG, WEBP, TXT up to 16MB</p>
               </label>
 
               <input
@@ -133,7 +133,7 @@ export default function UploadPage() {
               />
 
               {uploadedFileName && (
-                <div className="mt-3 rounded-xl border border-brand-100 bg-brand-50 px-3 py-2">
+                <div className="mt-3 rounded-xl border border-brand-100 bg-brand-50 px-3 py-2 dark:bg-slate-800">
                   <p className="text-xs font-body text-brand-700">
                     Uploaded: {uploadedFileName}
                   </p>
@@ -141,7 +141,7 @@ export default function UploadPage() {
               )}
 
               {!uploadedFileName && (
-                <div className="mt-3 flex items-center justify-center text-slate-400">
+                <div className="mt-3 flex items-center justify-center text-slate-400 dark:text-slate-500">
                   <UploadCloud size={16} className="mr-2" />
                   <span className="text-xs font-body">No file selected yet</span>
                 </div>

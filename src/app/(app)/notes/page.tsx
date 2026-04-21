@@ -42,18 +42,18 @@ export default function NotesPage() {
       {/* Header & Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display font-bold text-3xl text-slate-900">Browse Notes</h1>
-          <p className="text-slate-500 font-body text-sm">Find the best study material from your peers</p>
+          <h1 className="font-display font-bold text-3xl text-slate-900 dark:text-slate-100">Browse Notes</h1>
+          <p className="text-slate-500 font-body text-sm dark:text-slate-400">Find the best study material from your peers</p>
         </div>
 
         <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" size={18} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors dark:text-slate-500" size={18} />
           <input 
             type="text" 
             placeholder="Search notes, topics..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-50 shadow-sm transition-all w-full md:w-64 text-sm font-body"
+            className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-50 shadow-sm transition-all w-full md:w-64 text-sm font-body dark:bg-slate-900 dark:border-slate-700"
           />
         </div>
       </div>
@@ -64,11 +64,7 @@ export default function NotesPage() {
           <button
             key={s}
             onClick={() => setActiveSubject(s)}
-            className={`text-[11px] font-body font-medium px-4 py-2 rounded-xl transition-all
-              ${activeSubject === s
-                ? "bg-brand-500 text-white shadow-brand-200 shadow-md"
-                : "bg-white text-slate-600 border border-slate-200 hover:border-brand-300"
-              }`}
+            className={`text-[11px] font-body font-medium px-4 py-2 rounded-xl transition-all ${activeSubject === s ? "bg-brand-500 text-white shadow-brand-200 shadow-md" : "bg-white text-slate-600 border border-slate-200 hover:border-brand-300" } dark:text-slate-400 dark:border-slate-700`}
           >
             {s}
           </button>
