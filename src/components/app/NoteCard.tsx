@@ -52,9 +52,11 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
 
   return (
     <motion.div
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.15 }}
-      className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 hover:shadow-float hover:border-slate-200 transition-all cursor-pointer"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ y: -4, scale: 1.01 }}
+      className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 hover:shadow-float-md hover:border-brand-200 transition-all cursor-pointer group"
     >
       <Link href={`/notes/${id}`} className="block">
         {/* File type indicator + subject */}

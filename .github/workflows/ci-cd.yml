@@ -2,132 +2,22 @@ name: CI/CD
 
 on:
   push:
-    branches:
-      - "**"
+    branches: [main]
   pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-concurrency:
-  group: ci-cd-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [main]
 
 jobs:
-  ci:
-    name: Build Check
+  build:
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-  cd:
-    name: Deploy to Vercel
-    needs: ci
-    runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/main'
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Check deployment secrets
-        id: verify-secrets
-        shell: bash
-        run: |
-          sanitize() {
-            local value="$1"
-            value="$(printf '%s' "$value" | tr -d '[:space:]')"
-            value="${value#\"}"
-            value="${value%\"}"
-            value="${value#\'}"
-            value="${value%\'}"
-            printf '%s' "$value"
-          }
-
-          export VERCEL_TOKEN="$(sanitize "$VERCEL_TOKEN")"
-          export VERCEL_ORG_ID="$(sanitize "$VERCEL_ORG_ID")"
-          export VERCEL_PROJECT_ID="$(sanitize "$VERCEL_PROJECT_ID")"
-
-          {
-            echo "VERCEL_TOKEN=$VERCEL_TOKEN"
-            echo "VERCEL_ORG_ID=$VERCEL_ORG_ID"
-            echo "VERCEL_PROJECT_ID=$VERCEL_PROJECT_ID"
-          } >> "$GITHUB_ENV"
-
-          missing=0
-          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
-            if [[ -z "${!name}" ]]; then
-              echo "Missing required secret: $name"
-              missing=1
-            fi
-          done
-
-          if [[ "$missing" -eq 0 && ! "$VERCEL_ORG_ID" =~ ^(team|org)_[A-Za-z0-9]+$ ]]; then
-            echo "Invalid VERCEL_ORG_ID format. Expected values like team_xxx or org_xxx."
-            missing=1
-          fi
-
-          if [[ "$missing" -eq 0 && ! "$VERCEL_PROJECT_ID" =~ ^prj_[A-Za-z0-9]+$ ]]; then
-            echo "Invalid VERCEL_PROJECT_ID format. Expected values like prj_xxx."
-            missing=1
-          fi
-
-          if [[ "$missing" -eq 1 ]]; then
-            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Skip deploy when secrets are missing
-        if: steps.verify-secrets.outputs.should_deploy != 'true'
-        run: echo "Skipping Vercel deploy because one or more required secrets are missing."
-
-      - name: Setup Node.js
-        if: steps.verify-secrets.outputs.should_deploy == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        if: steps.verify-secrets.outputs.should_deploy == 'true'
-        run: npm ci
-
-      - name: Install Vercel CLI
-        if: steps.verify-secrets.outputs.should_deploy == 'true'
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel environment
-        if: steps.verify-secrets.outputs.should_deploy == 'true'
-        run: vercel pull --yes --environment=production --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
-
-      - name: Build Vercel artifacts
-        if: steps.verify-secrets.outputs.should_deploy == 'true'
-        run: vercel build --prod --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
-
-      - name: Deploy prebuilt artifacts
-        if: steps.verify-secrets.outputs.should_deploy == 'true'
-        run: vercel deploy --prebuilt --prod --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
+      - run: npm ci
+      - run: npm run build

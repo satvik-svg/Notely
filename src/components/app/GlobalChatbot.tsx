@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Bot, Send, X, MessageSquare } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 
 interface Message { role: "user" | "model"; content: string; }
@@ -77,8 +78,15 @@ export function GlobalChatbot() {
       )}
 
       {/* Chat panel */}
-      {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-[380px] h-[520px] bg-white rounded-2xl border border-slate-200 shadow-float-md flex flex-col overflow-hidden">
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed bottom-24 right-6 z-50 w-[380px] h-[520px] bg-white rounded-2xl border border-slate-200 shadow-float-md flex flex-col overflow-hidden"
+          >
           {/* Header */}
           <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-brand-500 to-brand-600 text-white">
             <Bot size={18} />
@@ -134,8 +142,9 @@ export function GlobalChatbot() {
               <Send size={13} className="text-white" />
             </button>
           </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

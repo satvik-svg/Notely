@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Flame, Trophy, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function DashboardPage() {
     const { data: session } = useSession();
@@ -27,17 +28,26 @@ export default function DashboardPage() {
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
             {/* Welcome */}
-            <div>
-                <h1 className="font-display font-bold text-3xl text-slate-900">
+            <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+                <h1 className="font-display font-bold text-3xl text-slate-900 tracking-tight">
                     Welcome back, {userName}
                 </h1>
                 <p className="text-slate-500 font-body text-sm mt-1">
                     Here&apos;s your study progress at a glance.
                 </p>
-            </div>
+            </motion.div>
 
             {/* Streak + Stats row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-5"
+            >
                 {/* Streak card */}
                 <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-6 translate-x-6" />
@@ -81,7 +91,7 @@ export default function DashboardPage() {
                     </p>
                     <p className="font-body text-xs text-slate-400 mt-1">Upload notes to earn more</p>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 }

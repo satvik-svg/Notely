@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { useSession, signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
+import Image from "next/image";
 
 const navItems = [
   { href: "/dashboard", icon: Home, label: "Dashboard" },
@@ -25,11 +26,16 @@ export function Sidebar() {
 
   return (
     <aside className="w-60 bg-white border-r border-slate-100 flex flex-col py-6 px-3 shrink-0">
-      <div className="flex items-center gap-2 px-3 mb-8">
-        <div className="w-7 h-7 bg-brand-500 rounded-lg flex items-center justify-center">
-          <span className="text-white font-display font-bold text-xs">N</span>
+      <div className="flex items-center gap-3 px-3 mb-8">
+        <div className="relative w-8 h-8 group-hover:scale-105 transition-transform">
+          <Image
+            src="/ChatGPT_Image_Apr_24__2026__02_56_58_AM-removebg-preview.png"
+            alt="NoteShare Logo"
+            fill
+            className="object-contain drop-shadow-sm"
+          />
         </div>
-        <span className="font-display font-semibold text-slate-900">NoteShare</span>
+        <span className="font-display font-semibold text-slate-900 tracking-tight text-lg">NoteShare</span>
       </div>
 
       <nav className="space-y-1 flex-1">
@@ -40,13 +46,13 @@ export function Sidebar() {
               key={href}
               href={href}
               className={clsx(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-body transition-all",
+                "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-body transition-all duration-300",
                 active
-                  ? "bg-brand-50 text-brand-600 font-medium"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-brand-50 text-brand-600 font-medium shadow-sm"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:translate-x-1"
               )}
             >
-              <Icon size={16} strokeWidth={active ? 2.5 : 2} />
+              <Icon size={16} strokeWidth={active ? 2.5 : 2} className={clsx("transition-transform duration-300", active ? "scale-110" : "group-hover:scale-110")} />
               {label}
             </Link>
           );

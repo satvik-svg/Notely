@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Navbar() {
@@ -12,12 +13,17 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-background/80 backdrop-blur-md border-b border-border"
     >
       {/* Logo */}
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center">
-          <span className="text-white font-display font-bold text-sm">N</span>
+      <Link href="/" className="flex items-center gap-3 group">
+        <div className="relative w-9 h-9 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+          <Image
+            src="/ChatGPT_Image_Apr_24__2026__02_56_58_AM-removebg-preview.png"
+            alt="NoteShare Logo"
+            fill
+            className="object-contain drop-shadow-md"
+          />
         </div>
-        <span className="font-display font-semibold text-foreground text-lg">NoteShare</span>
-      </div>
+        <span className="font-display font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700 text-xl tracking-tight">NoteShare</span>
+      </Link>
 
       {/* Nav links */}
       <div className="hidden md:flex items-center gap-8">
