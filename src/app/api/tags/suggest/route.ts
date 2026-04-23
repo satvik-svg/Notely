@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { flashModel } from "@/lib/gemini";
+import { createGroq } from "@ai-sdk/groq";
+import { generateText } from "ai";
+
+const groq = createGroq({ apiKey: process.env.GROQ_API_KEY || "invalid" });
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -38,9 +41,14 @@ Return ONLY a JSON array of strings. Example: ["DBMS", "SQL", "Normalization", "
 No markdown, no extra text.`;
 
     try {
-      const result = await flashModel.generateContent(prompt);
-      const raw = result.response.text().replace(/```json|```/g, "").trim();
-      aiTags = JSON.parse(raw);
+      if (process.env.GROQ_API_KEY) {
+        const { text: rawText } = await generateText({
+          model: groq("llama-3.1-8b-instant"),
+          prompt
+        });
+        const raw = rawText.replace(/\`\`\`json|\`\`\`/g, "").trim();
+        aiTags = JSON.parse(raw);
+      }
     } catch (err) {
       console.error("AI Tag Gen failed", err);
     }

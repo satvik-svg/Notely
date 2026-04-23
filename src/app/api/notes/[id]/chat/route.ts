@@ -1,81 +1,96 @@
 import { NextRequest } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { getEmbedding } from "@/lib/gemini";
+import { createGroq } from "@ai-sdk/groq";
+import { streamText } from "ai";
 import { prisma } from "@/lib/prisma";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
-
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { question, history = [] } = await req.json();
-  const { id } = await params;
+  try {
+    const { id } = await params;
+    const body = await req.json().catch(() => ({}));
+    const question = typeof body.question === "string" ? body.question.trim() : "";
+    const history = Array.isArray(body.history) ? body.history : [];
 
-  // 1. Embed the user's question
-  const queryEmbedding = await getEmbedding(question);
-
-  // 2. Find top-5 similar chunks using cosine similarity in pgvector
-  const relevant = await prisma.$queryRaw<Array<{ chunk: string; similarity: number }>>`
-    SELECT chunk, 1 - (embedding_vec <=> ${`[${queryEmbedding.join(",")}]`}::vector) AS similarity
-    FROM "NoteEmbedding"
-    WHERE "noteId" = ${id}
-    ORDER BY embedding_vec <=> ${`[${queryEmbedding.join(",")}]`}::vector
-    LIMIT 5
-  `;
-
-  // 3. Build context from retrieved chunks
-  const context = relevant.map((r) => r.chunk).join("\n\n---\n\n");
-
-  // Fire-and-forget: track retrieved chunks as "chat_review"
-  // Uses internal fetch to the track endpoint
-  const origin = new URL(req.url).origin;
-  for (const r of relevant) {
-    if ((r as Record<string, unknown>).id) {
-      fetch(`${origin}/api/recall/track`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          cookie: req.headers.get("cookie") ?? "",
-        },
-        body: JSON.stringify({
-          noteChunkId: (r as Record<string, unknown>).id,
-          event: "chat_review",
-        }),
-      }).catch(() => { });
+    if (!question) {
+      return new Response("Please enter a question.", {
+        status: 400,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
     }
+
+    const note = await prisma.note.findUnique({
+      where: { id },
+      select: { title: true, subject: true, description: true, tags: true },
+    });
+
+    if (!note) {
+      return new Response("Note not found.", {
+        status: 404,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
+
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      return new Response("Groq API key is not configured.", {
+        status: 500,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
+
+    const groq = createGroq({ apiKey });
+
+    const systemPrompt = `You are a helpful study chatbot for doubts.
+Answer the student's question clearly, step-by-step, and in simple language.
+
+NOTE DETAILS:
+Title: ${note.title}
+Subject: ${note.subject}
+Description: ${note.description ?? "No description"}
+Tags: ${note.tags.length > 0 ? note.tags.join(", ") : "No tags"}
+
+Rules:
+- Stay focused on this note/topic.
+- Keep responses concise and student-friendly.`;
+
+    const formattedHistory = history
+      .filter((m: any) => m && typeof m === "object" && (m.role === "user" || m.role === "model" || m.role === "assistant"))
+      .map((m: any) => ({
+        role: m.role === "model" ? "assistant" : m.role,
+        content: m.content || "",
+      }));
+
+    const result = streamText({
+      model: groq("llama-3.1-8b-instant"),
+      system: systemPrompt,
+      messages: [
+        ...formattedHistory,
+        { role: "user", content: question }
+      ]
+    });
+
+    // We must return a raw text stream because the frontend RAGChat.tsx manually decodes text chunks.
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        try {
+          for await (const chunk of result.textStream) {
+            controller.enqueue(encoder.encode(chunk));
+          }
+          controller.close();
+        } catch (error) {
+          controller.error(error);
+        }
+      },
+    });
+
+    return new Response(stream, {
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  } catch (error) {
+    console.error("Chat route failed", error);
+    return new Response(
+      "Chatbot is temporarily unavailable. Please try again in a few seconds.",
+      { headers: { "Content-Type": "text/plain; charset=utf-8" } }
+    );
   }
-
-  // 4. Build system prompt
-  const systemPrompt = `You are a helpful study assistant. Answer the student's question using ONLY the context from their notes below. If the answer isn't in the notes, say "I couldn't find that in these notes."
-
-NOTES CONTEXT:
-${context}
-
-Be concise, clear, and student-friendly.`;
-
-  // 5. Stream response from Gemini
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const chat = model.startChat({
-    systemInstruction: systemPrompt,
-    history: history.map((m: any) => ({
-      role: m.role,
-      parts: [{ text: m.content }],
-    })),
-  });
-
-  const result = await chat.sendMessageStream(question);
-
-  // Return as a streaming text response
-  const stream = new ReadableStream({
-    async start(controller) {
-      const encoder = new TextEncoder();
-      for await (const chunk of result.stream) {
-        const text = chunk.text();
-        controller.enqueue(encoder.encode(text));
-      }
-      controller.close();
-    },
-  });
-
-  return new Response(stream, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
 }

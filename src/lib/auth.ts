@@ -38,6 +38,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           karma: user.karma,
           department: user.department,
+          section: user.section,
         } as any;
       },
     }),
@@ -48,6 +49,7 @@ export const authOptions: NextAuthOptions = {
         token.id = (user as any).id;
         token.karma = (user as any).karma;
         token.department = (user as any).department;
+        token.section = (user as any).section;
       }
       return token;
     },
@@ -56,6 +58,7 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).id = token.id as string;
         (session.user as any).karma = token.karma;
         (session.user as any).department = token.department;
+        (session.user as any).section = token.section;
       }
       return session;
     },

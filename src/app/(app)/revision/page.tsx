@@ -6,10 +6,10 @@ export default function RevisionPage() {
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
             <div>
-                <h1 className="font-display font-bold text-3xl text-slate-900 dark:text-slate-100">
+                <h1 className="font-display font-bold text-3xl text-slate-900">
                     🧠 Revision
                 </h1>
-                <p className="text-slate-500 font-body text-sm mt-1 dark:text-slate-400">
+                <p className="text-slate-500 font-body text-sm mt-1">
                     Review concepts before you forget them. Powered by spaced repetition.
                 </p>
             </div>

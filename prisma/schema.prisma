@@ -17,12 +17,18 @@ model User {
   image     String?
   bio       String?
   department String? // "CS", "EC", "ME" etc.
+  section   String?  // "CS-A", "CS-B", "EC-A" etc.
   year      Int?     // 1, 2, 3, 4
   college   String?  @default("KIET")
   karma     Int      @default(0)
   badge     String?  // "Rising Star", "Gold Contributor" etc.
   isVerified Boolean @default(false)
   createdAt DateTime @default(now())
+
+  // Streak tracking
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActiveDate DateTime?
 
   notes     Note[]
   comments  Comment[]
@@ -31,6 +37,8 @@ model User {
   accounts  Account[]
   sessions  Session[]
   memories  UserConceptMemory[]
+  favorites FavoriteNote[]
+  groupMessages GroupMessage[]
 }
 
 model Note {
@@ -47,6 +55,11 @@ model Note {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // PYQ fields
+  isPYQ       Boolean  @default(false)
+  examYear    Int?     // 2020, 2021, ... 2026
+  examType    String?  // "Mid-Sem 1", "Mid-Sem 2", "End-Sem"
+
   authorId    String
   author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
@@ -56,6 +69,7 @@ model Note {
   comments    Comment[]
   upvotes     Upvote[]
   embeddings  NoteEmbedding[]
+  favorites   FavoriteNote[]
 }
 
 
@@ -98,8 +112,13 @@ model StudyGroup {
   inviteCode  String   @unique @default(cuid())
   createdAt   DateTime @default(now())
 
+  // Class group fields
+  isClassGroup Boolean  @default(false)
+  section      String?  // "CS-A", "CS-B", etc.
+
   notes       Note[]
   members     GroupMember[]
+  messages    GroupMessage[]
 }
 
 model GroupMember {
@@ -175,3 +194,27 @@ model UserConceptMemory {
   @@index([nextReviewAt])
 }
 
+model FavoriteNote {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  noteId    String
+  note      Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, noteId])
+}
+
+model GroupMessage {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+
+  authorId  String
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  groupId   String
+  group     StudyGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+}

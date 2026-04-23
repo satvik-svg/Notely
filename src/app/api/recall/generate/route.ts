@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { flashModel, hasUsableGoogleApiKey } from "@/lib/gemini";
+import { createGroq } from "@ai-sdk/groq";
+import { generateText } from "ai";
 
 export interface RecallFlashcard {
     question: string;
@@ -27,6 +28,12 @@ export interface RecallContent {
     shortAnswer: RecallShortAnswer;
     source: "ai" | "fallback";
 }
+
+function hasUsableApiKey(): boolean {
+  return !!process.env.GROQ_API_KEY;
+}
+
+const groq = createGroq({ apiKey: process.env.GROQ_API_KEY || "invalid" });
 
 function buildFallbackContent(chunkText: string): RecallContent {
     const preview = chunkText.slice(0, 80);
@@ -72,7 +79,7 @@ function buildFallbackContent(chunkText: string): RecallContent {
 }
 
 function parseRecallContent(raw: string, chunkText: string): RecallContent {
-    const cleaned = raw.replaceAll("```json", "").replaceAll("```", "").trim();
+    const cleaned = raw.replaceAll("\`\`\`json", "").replaceAll("\`\`\`", "").trim();
 
     try {
         const parsed = JSON.parse(cleaned);
@@ -130,7 +137,7 @@ export async function POST(req: NextRequest) {
     const chunkText = embedding.chunk;
 
     // Try AI generation
-    if (hasUsableGoogleApiKey() && chunkText.trim()) {
+    if (hasUsableApiKey() && chunkText.trim()) {
         const prompt = `You are an expert study assistant. Based on the following study note excerpt, generate recall practice material.
 
 IMPORTANT: Respond with ONLY valid JSON, no markdown fences, no extra text. Use this exact format:
@@ -149,8 +156,10 @@ Study note excerpt:
 ${chunkText.slice(0, 4000)}`;
 
         try {
-            const result = await flashModel.generateContent(prompt);
-            const raw = result.response.text();
+            const { text: raw } = await generateText({
+              model: groq("llama-3.1-8b-instant"),
+              prompt
+            });
             const content = parseRecallContent(raw, chunkText);
             return NextResponse.json(content);
         } catch (error) {

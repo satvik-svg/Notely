@@ -36,30 +36,30 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-secondary flex flex-col dark:bg-slate-950">
+    <div className="min-h-screen bg-surface-secondary flex flex-col">
       <Navbar />
       <div className="flex-1 flex items-center justify-center p-6 pt-24">
-        <div className="bg-white p-8 rounded-3xl shadow-float-md w-full max-w-md dark:bg-slate-900">
-          <h1 className="font-display font-bold text-3xl text-slate-900 mb-2 text-center dark:text-slate-100">Welcome back</h1>
-          <p className="font-body text-slate-500 mb-8 text-center text-sm dark:text-slate-400">Sign in to your account</p>
+        <div className="bg-white p-8 rounded-3xl shadow-float-md w-full max-w-md">
+          <h1 className="font-display font-bold text-3xl text-slate-900 mb-2 text-center">Welcome back</h1>
+          <p className="font-body text-slate-500 mb-8 text-center text-sm">Sign in to your account</p>
           
           <form className="space-y-5" onSubmit={handleSubmit}>
             {error && <p className="text-red-500 text-sm font-body text-center">{error}</p>}
             <div className="space-y-2">
-              <label className="text-sm font-display font-semibold text-slate-700 dark:text-slate-300">Email address</label>
+              <label className="text-sm font-display font-semibold text-slate-700">Email address</label>
               <input 
                 type="email" 
                 placeholder="student@college.edu" 
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all dark:bg-slate-800 dark:border-slate-800"
+                className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
               />
             </div>
             
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                 <label className="text-sm font-display font-semibold text-slate-700 dark:text-slate-300">Password</label>
+                 <label className="text-sm font-display font-semibold text-slate-700">Password</label>
                  <a href="#" className="text-xs font-body text-brand-500 hover:underline">Forgot?</a>
               </div>
               <input 
@@ -68,7 +68,7 @@ export default function LoginPage() {
                 value={formData.password}
                 onChange={e => setFormData({ ...formData, password: e.target.value })}
                 required
-                className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all dark:bg-slate-800 dark:border-slate-800"
+                className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
               />
             </div>
             
@@ -81,7 +81,7 @@ export default function LoginPage() {
             </button>
           </form>
           
-          <p className="text-center text-sm font-body text-slate-500 mt-8 dark:text-slate-400">
+          <p className="text-center text-sm font-body text-slate-500 mt-8">
             Don't have an account? <Link href="/signup" className="text-brand-500 hover:underline font-medium">Sign up</Link>
           </p>
         </div>

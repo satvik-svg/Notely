@@ -1,20 +1,20 @@
 "use client";
-import { BookOpen, Users, Trophy, Upload, Home, Brain } from "lucide-react";
+import { BookOpen, Users, Trophy, Upload, Home, Star, FileText } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
+import { useSession, signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", icon: Home, label: "Dashboard" },
-  { href: "/revision", icon: Brain, label: "Revision" },
+  { href: "/favorites", icon: Star, label: "My Saved Notes" },
   { href: "/notes", icon: BookOpen, label: "Browse Notes" },
+  { href: "/pyq", icon: FileText, label: "PYQ Papers" },
   { href: "/notes/upload", icon: Upload, label: "Upload Notes" },
   { href: "/groups", icon: Users, label: "Study Groups" },
   { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
 ];
-
-import { useSession, signOut } from "next-auth/react";
-import { LogOut } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -24,13 +24,12 @@ export function Sidebar() {
   const karma = (session?.user as any)?.karma || 0;
 
   return (
-    <aside className="w-60 bg-white border-r border-slate-100 flex flex-col py-6 px-3 shrink-0 dark:bg-slate-900 dark:border-slate-800">
-      {/* ... (logo and navItems remain same) ... */}
+    <aside className="w-60 bg-white border-r border-slate-100 flex flex-col py-6 px-3 shrink-0">
       <div className="flex items-center gap-2 px-3 mb-8">
         <div className="w-7 h-7 bg-brand-500 rounded-lg flex items-center justify-center">
           <span className="text-white font-display font-bold text-xs">N</span>
         </div>
-        <span className="font-display font-semibold text-slate-900 dark:text-slate-100">NoteShare</span>
+        <span className="font-display font-semibold text-slate-900">NoteShare</span>
       </div>
 
       <nav className="space-y-1 flex-1">
@@ -55,20 +54,20 @@ export function Sidebar() {
       </nav>
 
       {/* User at bottom */}
-      <div className="px-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+      <div className="px-3 pt-4 border-t border-slate-100">
         <div className="flex items-center gap-2.5 mb-4">
           <div className="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
             <span className="text-xs font-display font-bold text-brand-600">{userInitial}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-display font-semibold text-slate-800 truncate dark:text-slate-200">{session?.user?.name || "User"}</p>
+            <p className="text-xs font-display font-semibold text-slate-800 truncate">{session?.user?.name || "User"}</p>
             <p className="text-[10px] font-body text-brand-500">⬆ {karma} karma</p>
           </div>
         </div>
 
         <button
           onClick={() => signOut()}
-          className="w-full flex items-center gap-2 text-xs font-body text-slate-400 hover:text-red-500 transition-colors px-1 dark:text-slate-500"
+          className="w-full flex items-center gap-2 text-xs font-body text-slate-400 hover:text-red-500 transition-colors px-1"
         >
           <LogOut size={14} />
           Sign out
@@ -77,4 +76,3 @@ export function Sidebar() {
     </aside>
   );
 }
-

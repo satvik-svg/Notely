@@ -40,7 +40,7 @@ export function SmartTagInput({ tags, setTags, noteTitle = "" }: { tags: string[
       {/* Tags */}
       <div className="flex flex-wrap gap-1.5 mb-2">
         {tags.map((tag) => (
-          <span key={tag} className="flex items-center gap-1 text-xs font-body bg-brand-50 text-brand-700 px-2.5 py-1 rounded-lg border border-brand-100 dark:bg-slate-800">
+          <span key={tag} className="flex items-center gap-1 text-xs font-body bg-brand-50 text-brand-700 px-2.5 py-1 rounded-lg border border-brand-100">
             {tag}
             <button onClick={() => removeTag(tag)} className="hover:text-brand-900">
               <X size={10} />
@@ -57,17 +57,17 @@ export function SmartTagInput({ tags, setTags, noteTitle = "" }: { tags: string[
             if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(input); }
           }}
           placeholder="Add tags (max 5)..."
-          className="w-full text-xs font-body bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-200 outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 transition-all dark:bg-slate-800 dark:border-slate-700"
+          className="w-full text-xs font-body bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-200 outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 transition-all"
         />
       )}
 
       {/* Dropdown */}
       {showDropdown && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-float z-10 overflow-hidden dark:bg-slate-900 dark:border-slate-700">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-float z-10 overflow-hidden">
           {suggestions.map((s) => (
             <button key={s} onClick={() => addTag(s)}
-              className="w-full text-left text-xs font-body text-slate-700 px-3 py-2 hover:bg-brand-50 hover:text-brand-700 transition-colors flex items-center gap-2 dark:text-slate-300">
-              <span className="text-slate-400 dark:text-slate-500">#</span> {s}
+              className="w-full text-left text-xs font-body text-slate-700 px-3 py-2 hover:bg-brand-50 hover:text-brand-700 transition-colors flex items-center gap-2">
+              <span className="text-slate-400">#</span> {s}
             </button>
           ))}
         </div>

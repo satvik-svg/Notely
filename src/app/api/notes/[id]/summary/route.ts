@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { flashModel, hasUsableGoogleApiKey } from "@/lib/gemini";
 import { extractTextFromPDF } from "@/lib/extract-text";
 import { prisma } from "@/lib/prisma";
+import { createGroq } from "@ai-sdk/groq";
+import { generateText } from "ai";
+
+function hasUsableApiKey(): boolean {
+  return !!process.env.GROQ_API_KEY;
+}
+
+const groq = createGroq({ apiKey: process.env.GROQ_API_KEY || "invalid" });
 
 function guessImageMimeType(url: string): string {
   const lower = url.toLowerCase();
@@ -11,32 +18,28 @@ function guessImageMimeType(url: string): string {
   return "image/png";
 }
 
-function isApiKeyInvalidError(error: unknown): boolean {
-  if (!(error instanceof Error)) return false;
-  return error.message.includes("API_KEY_INVALID") || error.message.includes("API key not valid");
-}
-
 async function extractTextFromImage(fileUrl: string): Promise<string> {
   const imageRes = await fetch(fileUrl);
   if (!imageRes.ok) throw new Error("Failed to fetch image");
 
   const mimeType = imageRes.headers.get("content-type") || guessImageMimeType(fileUrl);
   const bytes = Buffer.from(await imageRes.arrayBuffer());
-  const base64 = bytes.toString("base64");
+  
+  // Use Groq's vision model
+  const { text } = await generateText({
+    model: groq("llama-3.2-11b-vision-preview"),
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "Extract readable study text from this image. Return only plain text without markdown or commentary. If no text is readable, return an empty string." },
+          { type: "image", image: bytes }
+        ]
+      }
+    ]
+  });
 
-  const result = await flashModel.generateContent([
-    {
-      text: "Extract readable study text from this image. Return only plain text without markdown or commentary. If no text is readable, return an empty string.",
-    },
-    {
-      inlineData: {
-        mimeType,
-        data: base64,
-      },
-    },
-  ]);
-
-  return result.response.text().trim();
+  return text.trim();
 }
 
 async function extractNoteText(
@@ -105,15 +108,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const note = await prisma.note.findUnique({ where: { id } });
     if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-    let canUseAi = hasUsableGoogleApiKey();
+    let canUseAi = hasUsableApiKey();
     let text = "";
 
     try {
       text = await extractNoteText(note, canUseAi);
     } catch (error) {
-      if (isApiKeyInvalidError(error)) {
-        canUseAi = false;
-      }
       console.error("Note text extraction failed, falling back", error);
       text = "";
     }
@@ -132,13 +132,12 @@ ${trimmed}
 Respond in clean, student-friendly language. Be concise.`;
 
       try {
-        const result = await flashModel.generateContent(prompt);
-        const summary = result.response.text();
+        const { text: summary } = await generateText({
+          model: groq("llama-3.1-8b-instant"),
+          prompt
+        });
         return NextResponse.json({ summary, source: "ai" });
       } catch (error) {
-        if (isApiKeyInvalidError(error)) {
-          canUseAi = false;
-        }
         console.error("AI summary generation failed, falling back", error);
       }
     }

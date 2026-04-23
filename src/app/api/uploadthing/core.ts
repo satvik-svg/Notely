@@ -8,6 +8,7 @@ export const ourFileRouter = {
   noteUploader: f({
     pdf: { maxFileSize: "16MB" },
     image: { maxFileSize: "8MB" },
+    text: { maxFileSize: "4MB" },
   })
     .middleware(async () => {
       const session = await getServerSession(authOptions);

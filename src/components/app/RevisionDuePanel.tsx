@@ -65,28 +65,28 @@ function PriorityBadge({ priority }: { priority: string }) {
 
 function RevisionItemCard({ item }: { item: RevisionItem }) {
     return (
-        <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-100 hover:border-brand-200 hover:bg-brand-50/30 transition-all dark:border-slate-800">
+        <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-100 hover:border-brand-200 hover:bg-brand-50/30 transition-all">
             <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                     <PriorityBadge priority={item.priority} />
-                    <span className="text-[10px] font-body text-slate-400 uppercase tracking-wider dark:text-slate-500">
+                    <span className="text-[10px] font-body text-slate-400 uppercase tracking-wider">
                         {item.noteSubject}
                     </span>
                 </div>
-                <p className="text-xs font-display font-semibold text-slate-800 truncate dark:text-slate-200">
+                <p className="text-xs font-display font-semibold text-slate-800 truncate">
                     {item.noteTitle}
                 </p>
-                <p className="text-[11px] font-body text-slate-400 mt-0.5 line-clamp-2 dark:text-slate-500">
+                <p className="text-[11px] font-body text-slate-400 mt-0.5 line-clamp-2">
                     {item.chunkPreview}
                 </p>
                 <div className="flex items-center gap-2 mt-2">
-                    <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden dark:bg-slate-800">
+                    <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div
                             className={`h-full rounded-full transition-all ${item.strengthScore < 0.3 ? "bg-red-400" : item.strengthScore <= 0.5 ? "bg-amber-400" : "bg-green-400" }`}
                             style={{ width: `${Math.round(item.strengthScore * 100)}%` }}
                         />
                     </div>
-                    <span className="text-[10px] font-body text-slate-400 dark:text-slate-500">
+                    <span className="text-[10px] font-body text-slate-400">
                         {Math.round(item.strengthScore * 100)}%
                     </span>
                 </div>
@@ -129,16 +129,16 @@ export function RevisionDuePanel() {
     if (!session?.user) return null;
 
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 dark:bg-slate-900 dark:border-slate-800">
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
             <div className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 bg-purple-50 rounded-lg flex items-center justify-center">
                     <Brain size={14} className="text-purple-600" />
                 </div>
                 <div>
-                    <h3 className="font-display font-semibold text-slate-800 text-sm dark:text-slate-200">
+                    <h3 className="font-display font-semibold text-slate-800 text-sm">
                         Revision Due
                     </h3>
-                    <p className="text-[10px] font-body text-slate-400 dark:text-slate-500">
+                    <p className="text-[10px] font-body text-slate-400">
                         Spaced repetition tracker
                     </p>
                 </div>
@@ -149,14 +149,14 @@ export function RevisionDuePanel() {
                     {[1, 2, 3].map((i) => (
                         <div
                             key={i}
-                            className="h-20 bg-slate-50 rounded-xl animate-pulse dark:bg-slate-800"
+                            className="h-20 bg-slate-50 rounded-xl animate-pulse"
                         />
                     ))}
                 </div>
             ) : !data || data.total === 0 ? (
                 <div className="text-center py-6">
                     <Brain size={28} className="mx-auto text-slate-300 mb-2" />
-                    <p className="text-xs font-body text-slate-400 dark:text-slate-500">
+                    <p className="text-xs font-body text-slate-400">
                         No revisions due right now.
                     </p>
                     <p className="text-[10px] font-body text-slate-300 mt-1">

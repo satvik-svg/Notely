@@ -11,6 +11,8 @@ export async function GET() {
       karma: true,
       badge: true,
       department: true,
+      section: true,
+      currentStreak: true,
       _count: { select: { notes: true } },
     },
   });

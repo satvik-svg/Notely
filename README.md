@@ -68,8 +68,9 @@ Required for AI features (true AI mode):
 
 Required if using UploadThing provider route:
 
-- `UPLOADTHING_SECRET`
-- `UPLOADTHING_APP_ID`
+- `UPLOADTHING_TOKEN`
+
+Legacy keys (`UPLOADTHING_SECRET`, `UPLOADTHING_APP_ID`) are not used by UploadThing v7 runtime.
 
 Notes:
 

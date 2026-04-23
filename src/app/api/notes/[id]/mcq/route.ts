@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { flashModel, hasUsableGoogleApiKey } from "@/lib/gemini";
 import { extractTextFromPDF } from "@/lib/extract-text";
 import { prisma } from "@/lib/prisma";
+import { createGroq } from "@ai-sdk/groq";
+import { generateText } from "ai";
 
 export interface MCQ {
   question: string;
@@ -9,6 +10,12 @@ export interface MCQ {
   answer: number;      // index of correct option (0-3)
   explanation: string;
 }
+
+function hasUsableApiKey(): boolean {
+  return !!process.env.GROQ_API_KEY;
+}
+
+const groq = createGroq({ apiKey: process.env.GROQ_API_KEY || "invalid" });
 
 function guessImageMimeType(url: string): string {
   const lower = url.toLowerCase();
@@ -18,32 +25,27 @@ function guessImageMimeType(url: string): string {
   return "image/png";
 }
 
-function isApiKeyInvalidError(error: unknown): boolean {
-  if (!(error instanceof Error)) return false;
-  return error.message.includes("API_KEY_INVALID") || error.message.includes("API key not valid");
-}
-
 async function extractTextFromImage(fileUrl: string): Promise<string> {
   const imageRes = await fetch(fileUrl);
   if (!imageRes.ok) throw new Error("Failed to fetch image");
 
   const mimeType = imageRes.headers.get("content-type") || guessImageMimeType(fileUrl);
   const bytes = Buffer.from(await imageRes.arrayBuffer());
-  const base64 = bytes.toString("base64");
 
-  const result = await flashModel.generateContent([
-    {
-      text: "Extract readable study text from this image. Return only plain text. If no text is readable, return an empty string.",
-    },
-    {
-      inlineData: {
-        mimeType,
-        data: base64,
-      },
-    },
-  ]);
+  const { text } = await generateText({
+    model: groq("llama-3.2-11b-vision-preview"),
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "Extract readable study text from this image. Return only plain text. If no text is readable, return an empty string." },
+          { type: "image", image: bytes }
+        ]
+      }
+    ]
+  });
 
-  return result.response.text().trim();
+  return text.trim();
 }
 
 async function extractNoteText(
@@ -146,7 +148,7 @@ function buildFallbackMcqs(
 }
 
 function parseMcqs(raw: string): MCQ[] {
-  const cleaned = raw.replaceAll("```json", "").replaceAll("```", "").trim();
+  const cleaned = raw.replaceAll("\`\`\`json", "").replaceAll("\`\`\`", "").trim();
 
   try {
     return JSON.parse(cleaned) as MCQ[];
@@ -175,15 +177,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const note = await prisma.note.findUnique({ where: { id } });
     if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-    let canUseAi = hasUsableGoogleApiKey();
+    let canUseAi = hasUsableApiKey();
     let text = "";
 
     try {
       text = await extractNoteText(note, canUseAi);
     } catch (error) {
-      if (isApiKeyInvalidError(error)) {
-        canUseAi = false;
-      }
       console.error("Note text extraction failed, using fallback MCQs", error);
       text = "";
     }
@@ -210,8 +209,10 @@ Notes:
 ${trimmed}`;
 
       try {
-        const result = await flashModel.generateContent(prompt);
-        const raw = result.response.text();
+        const { text: raw } = await generateText({
+          model: groq("llama-3.1-8b-instant"),
+          prompt
+        });
 
         const mcqs = parseMcqs(raw);
         const normalized = mcqs.filter((q) => q?.question && Array.isArray(q.options) && q.options.length === 4);
@@ -220,9 +221,6 @@ ${trimmed}`;
           return NextResponse.json({ mcqs: normalized, source: "ai" });
         }
       } catch (error) {
-        if (isApiKeyInvalidError(error)) {
-          canUseAi = false;
-        }
         console.error("AI MCQ generation failed, using fallback", error);
       }
     }

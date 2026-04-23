@@ -5,13 +5,15 @@ import { authOptions } from "@/lib/auth";
 import { z } from "zod";
 import { indexNote } from "@/lib/index-note";
 
-// GET /api/notes?subject=CS&tag=DBMS&q=query&page=1
+// GET /api/notes?subject=CS&tag=DBMS&q=query&page=1&isPYQ=true
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const subject = searchParams.get("subject");
   const tag = searchParams.get("tag");
   const q = searchParams.get("q");
   const page = parseInt(searchParams.get("page") ?? "1");
+  const isPYQ = searchParams.get("isPYQ");
+  const examYear = searchParams.get("examYear");
   const PAGE_SIZE = 12;
 
   const notes = await prisma.note.findMany({
@@ -20,6 +22,8 @@ export async function GET(req: NextRequest) {
       ...(subject && subject !== "All" ? { subject } : {}),
       ...(tag ? { tags: { has: tag } } : {}),
       ...(q ? { title: { contains: q, mode: "insensitive" } } : {}),
+      ...(isPYQ === "true" ? { isPYQ: true } : {}),
+      ...(examYear ? { examYear: parseInt(examYear) } : {}),
     },
     include: {
       author: { select: { id: true, name: true, karma: true } },
@@ -48,6 +52,9 @@ export async function POST(req: NextRequest) {
     subject: z.string(),
     tags: z.array(z.string()).max(5),
     groupId: z.string().optional(),
+    isPYQ: z.boolean().optional(),
+    examYear: z.number().optional(),
+    examType: z.string().optional(),
   });
 
   const body = await req.json();

@@ -20,14 +20,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { name, description, subject, isPrivate } = await req.json();
+  const { name, description, subject, isPrivate, isClassGroup, section } = await req.json();
 
   const group = await prisma.studyGroup.create({
     data: {
       name,
       description,
-      subject,
-      isPrivate,
+      subject: subject || "General",
+      isPrivate: isPrivate || false,
+      isClassGroup: isClassGroup || false,
+      section: isClassGroup ? section : null,
       members: {
         create: { userId: (session.user as any).id, role: "admin" },
       },
@@ -36,3 +38,4 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(group, { status: 201 });
 }
+
