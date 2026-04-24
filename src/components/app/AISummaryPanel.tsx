@@ -36,13 +36,13 @@ export function AISummaryPanel({ noteId }: Readonly<{ noteId: string }>) {
   const { summary, loading, generate } = useSummary(noteId);
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+    <div className="bg-card rounded-2xl border border-border shadow-card p-5">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 bg-brand-100 rounded-md flex items-center justify-center">
             <span className="text-brand-600 text-[10px]">AI</span>
           </div>
-          <h3 className="font-display font-semibold text-slate-800 text-sm">AI Summary</h3>
+          <h3 className="font-display font-semibold text-card-foreground text-sm">AI Summary</h3>
         </div>
         {!summary && (
           <button
@@ -55,12 +55,12 @@ export function AISummaryPanel({ noteId }: Readonly<{ noteId: string }>) {
         )}
       </div>
       {summary && (
-        <div className="text-xs font-body text-slate-600 leading-relaxed whitespace-pre-wrap">
+        <div className="text-xs font-body text-muted-foreground leading-relaxed whitespace-pre-wrap">
           {summary}
         </div>
       )}
       {!summary && !loading && (
-        <p className="text-xs font-body text-slate-400">
+        <p className="text-xs font-body text-muted-foreground/80">
           Get an AI-powered TL;DR of this note in seconds.
         </p>
       )}

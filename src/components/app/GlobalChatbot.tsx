@@ -85,7 +85,7 @@ export function GlobalChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] h-[520px] bg-white rounded-2xl border border-slate-200 shadow-float-md flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-50 w-[380px] h-[520px] bg-card rounded-2xl border border-border shadow-float-md flex flex-col overflow-hidden"
           >
           {/* Header */}
           <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-brand-500 to-brand-600 text-white">
@@ -104,7 +104,7 @@ export function GlobalChatbot() {
             {messages.length === 0 && (
               <div className="text-center py-8">
                 <Bot size={32} className="mx-auto text-brand-300 mb-3" />
-                <p className="text-xs font-body text-slate-500 mb-3">Hi! I&apos;m NoteBot. Ask me anything about your studies.</p>
+                <p className="text-xs font-body text-muted-foreground mb-3">Hi! I&apos;m NoteBot. Ask me anything about your studies.</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {["Explain DBMS normalization", "Tips for DSA", "What is TCP/IP?"].map((s) => (
                     <button key={s} onClick={() => setInput(s)}
@@ -122,7 +122,7 @@ export function GlobalChatbot() {
                     <Bot size={11} className="text-brand-600" />
                   </div>
                 )}
-                <div className={`max-w-[80%] text-xs font-body leading-relaxed px-3 py-2 rounded-xl whitespace-pre-wrap ${m.role === "user" ? "bg-brand-500 text-white rounded-br-sm" : "bg-slate-100 text-slate-700 rounded-bl-sm"}`}>
+                <div className={`max-w-[80%] text-xs font-body leading-relaxed px-3 py-2 rounded-xl whitespace-pre-wrap ${m.role === "user" ? "bg-brand-500 text-white rounded-br-sm" : "bg-secondary text-foreground/90 rounded-bl-sm"}`}>
                   {m.content || (streaming && i === messages.length - 1 ? "▋" : "")}
                 </div>
               </div>
@@ -131,11 +131,11 @@ export function GlobalChatbot() {
           </div>
 
           {/* Input */}
-          <div className="px-4 py-3 border-t border-slate-100 flex gap-2">
+          <div className="px-4 py-3 border-t border-border flex gap-2">
             <input value={input} onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && ask()}
               placeholder="Ask anything..."
-              className="flex-1 text-xs font-body bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-100 outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 placeholder:text-slate-400"
+              className="flex-1 text-xs font-body bg-accent rounded-xl px-3 py-2.5 border border-border outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 placeholder:text-muted-foreground/80"
             />
             <button onClick={ask} disabled={streaming || !input.trim()}
               className="w-8 h-8 bg-brand-500 rounded-xl flex items-center justify-center hover:bg-brand-600 disabled:opacity-40 shrink-0 self-end transition-colors">

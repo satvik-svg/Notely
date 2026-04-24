@@ -10,11 +10,11 @@ export function LeaderboardRow({ rank, name, karma, uploads, dept }: {
 }) {
   const badge = computeBadge(karma);
 
-  const rankColors: Record<number, string> = { 1: "text-yellow-500", 2: "text-slate-400", 3: "text-orange-500" };
+  const rankColors: Record<number, string> = { 1: "text-yellow-500", 2: "text-muted-foreground/80", 3: "text-orange-500" };
   
   return (
-    <div className="flex items-center gap-4 bg-white rounded-2xl border border-slate-100 shadow-card px-5 py-4 hover:shadow-float transition-all">
-      <span className={`font-display font-bold text-lg w-6 text-center ${rankColors[rank] ?? "text-slate-400"}`}>
+    <div className="flex items-center gap-4 bg-card rounded-2xl border border-border shadow-card px-5 py-4 hover:shadow-float transition-all">
+      <span className={`font-display font-bold text-lg w-6 text-center ${rankColors[rank] ?? "text-muted-foreground/80"}`}>
         {rank}
       </span>
       <div className="w-9 h-9 bg-brand-100 rounded-full flex items-center justify-center">
@@ -23,12 +23,12 @@ export function LeaderboardRow({ rank, name, karma, uploads, dept }: {
         </span>
       </div>
       <div className="flex-1">
-        <p className="text-sm font-display font-semibold text-slate-900">{name}</p>
-        <p className="text-xs font-body text-slate-400">{dept} · {uploads} uploads · {badge}</p>
+        <p className="text-sm font-display font-semibold text-foreground">{name}</p>
+        <p className="text-xs font-body text-muted-foreground/80">{dept} · {uploads} uploads · {badge}</p>
       </div>
       <div className="text-right">
         <p className="text-sm font-display font-bold text-brand-500">⬆ {karma}</p>
-        <p className="text-xs font-body text-slate-400">karma</p>
+        <p className="text-xs font-body text-muted-foreground/80">karma</p>
       </div>
     </div>
   );

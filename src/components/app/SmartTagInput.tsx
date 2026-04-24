@@ -57,17 +57,17 @@ export function SmartTagInput({ tags, setTags, noteTitle = "" }: { tags: string[
             if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(input); }
           }}
           placeholder="Add tags (max 5)..."
-          className="w-full text-xs font-body bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-200 outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 transition-all"
+          className="w-full text-xs font-body bg-accent rounded-xl px-3 py-2.5 border border-border outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 transition-all"
         />
       )}
 
       {/* Dropdown */}
       {showDropdown && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-float z-10 overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-float z-10 overflow-hidden">
           {suggestions.map((s) => (
             <button key={s} onClick={() => addTag(s)}
-              className="w-full text-left text-xs font-body text-slate-700 px-3 py-2 hover:bg-brand-50 hover:text-brand-700 transition-colors flex items-center gap-2">
-              <span className="text-slate-400">#</span> {s}
+              className="w-full text-left text-xs font-body text-foreground/90 px-3 py-2 hover:bg-brand-50 hover:text-brand-700 transition-colors flex items-center gap-2">
+              <span className="text-muted-foreground/80">#</span> {s}
             </button>
           ))}
         </div>

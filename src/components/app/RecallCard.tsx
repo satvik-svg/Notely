@@ -98,7 +98,7 @@ export function RecallCard({
                         className={`text-purple-400 transition-transform ${flipped ? "rotate-90" : ""}`}
                     />
                 </div>
-                <p className="text-xs font-body text-slate-700 leading-relaxed">
+                <p className="text-xs font-body text-foreground/90 leading-relaxed">
                     {flipped ? content.flashcard.answer : content.flashcard.question}
                 </p>
                 <p className="text-[10px] font-body text-purple-400 mt-2">
@@ -110,22 +110,22 @@ export function RecallCard({
             {content.mcqs.map((mcq, mi) => (
                 <div
                     key={`recall-mcq-${mi}`}
-                    className="bg-white rounded-xl border border-slate-100 p-3"
+                    className="bg-card rounded-xl border border-border p-3"
                 >
-                    <p className="text-xs font-display font-semibold text-slate-800 mb-2 leading-snug">
+                    <p className="text-xs font-display font-semibold text-card-foreground mb-2 leading-snug">
                         {mcq.question}
                     </p>
                     <div className="space-y-1.5">
                         {mcq.options.map((opt, oi) => {
                             const selected = mcqSelected[mi];
                             let className =
-                                "border-slate-200 hover:border-brand-300 hover:bg-brand-50 text-slate-700";
+                                "border-border hover:border-brand-300 hover:bg-brand-50 text-foreground/90";
                             if (selected !== undefined) {
                                 if (oi === mcq.answer)
                                     className = "border-green-300 bg-green-50 text-green-800";
                                 else if (oi === selected)
                                     className = "border-red-300 bg-red-50 text-red-700";
-                                else className = "border-slate-100 text-slate-400";
+                                else className = "border-border text-muted-foreground/80";
                             }
                             return (
                                 <button
@@ -139,7 +139,7 @@ export function RecallCard({
                         })}
                     </div>
                     {mcqSelected[mi] !== undefined && (
-                        <p className="text-[11px] font-body text-slate-500 bg-slate-50 rounded-lg p-2 mt-2">
+                        <p className="text-[11px] font-body text-muted-foreground bg-accent rounded-lg p-2 mt-2">
                             {mcq.explanation}
                         </p>
                     )}
@@ -147,18 +147,18 @@ export function RecallCard({
             ))}
 
             {/* Short Answer */}
-            <div className="bg-slate-50 rounded-xl border border-slate-100 p-3">
-                <p className="text-[10px] font-body font-medium text-slate-400 uppercase tracking-wider mb-1">
+            <div className="bg-accent rounded-xl border border-border p-3">
+                <p className="text-[10px] font-body font-medium text-muted-foreground/80 uppercase tracking-wider mb-1">
                     Short Answer
                 </p>
-                <p className="text-xs font-body text-slate-700 leading-relaxed">
+                <p className="text-xs font-body text-foreground/90 leading-relaxed">
                     {content.shortAnswer.question}
                 </p>
                 <details className="mt-2">
                     <summary className="text-[10px] font-body text-brand-500 cursor-pointer hover:text-brand-600">
                         Show sample answer
                     </summary>
-                    <p className="text-[11px] font-body text-slate-500 mt-1 leading-relaxed">
+                    <p className="text-[11px] font-body text-muted-foreground mt-1 leading-relaxed">
                         {content.shortAnswer.sampleAnswer}
                     </p>
                 </details>
@@ -168,7 +168,7 @@ export function RecallCard({
             <button
                 onClick={generate}
                 disabled={loading}
-                className="text-[10px] font-body text-slate-400 hover:text-brand-500 transition-colors"
+                className="text-[10px] font-body text-muted-foreground/80 hover:text-brand-500 transition-colors"
             >
                 ↻ Generate new recall content
             </button>

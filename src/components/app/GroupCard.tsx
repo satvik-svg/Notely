@@ -49,10 +49,10 @@ export function GroupCard({
   return (
     <div
       onClick={() => router.push(`/groups/${id}`)}
-      className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 hover:shadow-float hover:border-slate-200 transition-all cursor-pointer"
+      className="bg-card rounded-2xl border border-border shadow-card p-5 hover:shadow-float hover:border-border transition-all cursor-pointer"
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-body text-slate-400 uppercase tracking-wider">
+        <span className="text-xs font-body text-muted-foreground/80 uppercase tracking-wider">
           {subject}
         </span>
         <div className="flex gap-1.5">
@@ -62,14 +62,14 @@ export function GroupCard({
             </span>
           )}
           {isPrivate && (
-            <span className="text-[10px] bg-slate-50 text-slate-500 px-2 py-0.5 rounded flex items-center gap-1">
+            <span className="text-[10px] bg-accent text-muted-foreground px-2 py-0.5 rounded flex items-center gap-1">
               <Shield size={8} /> Private
             </span>
           )}
         </div>
       </div>
-      <h3 className="font-display font-semibold text-slate-900 text-sm mb-1">{name}</h3>
-      <div className="flex items-center gap-3 text-xs font-body text-slate-400 mb-4">
+      <h3 className="font-display font-semibold text-foreground text-sm mb-1">{name}</h3>
+      <div className="flex items-center gap-3 text-xs font-body text-muted-foreground/80 mb-4">
         <span className="flex items-center gap-1"><Users size={12} />{members} members</span>
         <span className="flex items-center gap-1"><BookOpen size={12} />{notes} notes</span>
       </div>
@@ -83,7 +83,7 @@ export function GroupCard({
         </button>
         <button
           onClick={copyInvite}
-          className="bg-slate-50 text-slate-500 font-body text-xs px-3 py-2 rounded-xl hover:bg-slate-100 transition-colors"
+          className="bg-accent text-muted-foreground font-body text-xs px-3 py-2 rounded-xl hover:bg-secondary transition-colors"
           title="Copy invite link"
         >
           <Copy size={14} />

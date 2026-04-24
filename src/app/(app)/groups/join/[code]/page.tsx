@@ -39,26 +39,26 @@ export default function JoinByInvitePage() {
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-10 text-center max-w-md w-full">
+      <div className="bg-card rounded-2xl border border-border shadow-card p-10 text-center max-w-md w-full">
         {status === "loading" && (
           <>
             <Loader2 size={40} className="animate-spin text-brand-500 mx-auto mb-4" />
-            <h2 className="font-display font-bold text-xl text-slate-900 mb-2">Joining Group...</h2>
-            <p className="font-body text-sm text-slate-500">Please wait while we add you to the group.</p>
+            <h2 className="font-display font-bold text-xl text-foreground mb-2">Joining Group...</h2>
+            <p className="font-body text-sm text-muted-foreground">Please wait while we add you to the group.</p>
           </>
         )}
         {status === "success" && (
           <>
             <CheckCircle size={40} className="text-green-500 mx-auto mb-4" />
-            <h2 className="font-display font-bold text-xl text-slate-900 mb-2">You&apos;re In!</h2>
-            <p className="font-body text-sm text-slate-500">Successfully joined <strong>{groupName}</strong>. Redirecting...</p>
+            <h2 className="font-display font-bold text-xl text-foreground mb-2">You&apos;re In!</h2>
+            <p className="font-body text-sm text-muted-foreground">Successfully joined <strong>{groupName}</strong>. Redirecting...</p>
           </>
         )}
         {status === "error" && (
           <>
             <XCircle size={40} className="text-red-500 mx-auto mb-4" />
-            <h2 className="font-display font-bold text-xl text-slate-900 mb-2">Invalid Invite</h2>
-            <p className="font-body text-sm text-slate-500 mb-4">This invite link is expired or invalid.</p>
+            <h2 className="font-display font-bold text-xl text-foreground mb-2">Invalid Invite</h2>
+            <p className="font-body text-sm text-muted-foreground mb-4">This invite link is expired or invalid.</p>
             <button onClick={() => router.push("/groups")} className="bg-brand-500 text-white font-body font-medium text-sm px-6 py-2.5 rounded-xl hover:bg-brand-600 transition-all">
               Go to Groups
             </button>

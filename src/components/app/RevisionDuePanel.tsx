@@ -45,8 +45,8 @@ function PriorityBadge({ priority }: { priority: string }) {
             label: "Strong",
         },
     }[priority] ?? {
-        bg: "bg-slate-50",
-        text: "text-slate-500",
+        bg: "bg-accent",
+        text: "text-muted-foreground",
         icon: Clock,
         label: priority,
     };
@@ -65,28 +65,28 @@ function PriorityBadge({ priority }: { priority: string }) {
 
 function RevisionItemCard({ item }: { item: RevisionItem }) {
     return (
-        <div className="flex items-start gap-3 p-3 rounded-xl border border-slate-100 hover:border-brand-200 hover:bg-brand-50/30 transition-all">
+        <div className="flex items-start gap-3 p-3 rounded-xl border border-border hover:border-brand-200 hover:bg-brand-50/30 transition-all">
             <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                     <PriorityBadge priority={item.priority} />
-                    <span className="text-[10px] font-body text-slate-400 uppercase tracking-wider">
+                    <span className="text-[10px] font-body text-muted-foreground/80 uppercase tracking-wider">
                         {item.noteSubject}
                     </span>
                 </div>
-                <p className="text-xs font-display font-semibold text-slate-800 truncate">
+                <p className="text-xs font-display font-semibold text-card-foreground truncate">
                     {item.noteTitle}
                 </p>
-                <p className="text-[11px] font-body text-slate-400 mt-0.5 line-clamp-2">
+                <p className="text-[11px] font-body text-muted-foreground/80 mt-0.5 line-clamp-2">
                     {item.chunkPreview}
                 </p>
                 <div className="flex items-center gap-2 mt-2">
-                    <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="flex-1 h-1.5 bg-secondary rounded-full overflow-hidden">
                         <div
                             className={`h-full rounded-full transition-all ${item.strengthScore < 0.3 ? "bg-red-400" : item.strengthScore <= 0.5 ? "bg-amber-400" : "bg-green-400" }`}
                             style={{ width: `${Math.round(item.strengthScore * 100)}%` }}
                         />
                     </div>
-                    <span className="text-[10px] font-body text-slate-400">
+                    <span className="text-[10px] font-body text-muted-foreground/80">
                         {Math.round(item.strengthScore * 100)}%
                     </span>
                 </div>
@@ -129,16 +129,16 @@ export function RevisionDuePanel() {
     if (!session?.user) return null;
 
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+        <div className="bg-card rounded-2xl border border-border shadow-card p-5">
             <div className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 bg-purple-50 rounded-lg flex items-center justify-center">
                     <Brain size={14} className="text-purple-600" />
                 </div>
                 <div>
-                    <h3 className="font-display font-semibold text-slate-800 text-sm">
+                    <h3 className="font-display font-semibold text-card-foreground text-sm">
                         Revision Due
                     </h3>
-                    <p className="text-[10px] font-body text-slate-400">
+                    <p className="text-[10px] font-body text-muted-foreground/80">
                         Spaced repetition tracker
                     </p>
                 </div>
@@ -149,17 +149,17 @@ export function RevisionDuePanel() {
                     {[1, 2, 3].map((i) => (
                         <div
                             key={i}
-                            className="h-20 bg-slate-50 rounded-xl animate-pulse"
+                            className="h-20 bg-accent rounded-xl animate-pulse"
                         />
                     ))}
                 </div>
             ) : !data || data.total === 0 ? (
                 <div className="text-center py-6">
-                    <Brain size={28} className="mx-auto text-slate-300 mb-2" />
-                    <p className="text-xs font-body text-slate-400">
+                    <Brain size={28} className="mx-auto text-muted-foreground mb-2" />
+                    <p className="text-xs font-body text-muted-foreground/80">
                         No revisions due right now.
                     </p>
-                    <p className="text-[10px] font-body text-slate-300 mt-1">
+                    <p className="text-[10px] font-body text-muted-foreground mt-1">
                         Study some notes to start building memory!
                     </p>
                 </div>

@@ -56,12 +56,12 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{ y: -4, scale: 1.01 }}
-      className="bg-white rounded-2xl border border-slate-100 shadow-card p-5 hover:shadow-float-md hover:border-brand-200 transition-all cursor-pointer group"
+      className="bg-card rounded-2xl border border-border shadow-card p-5 hover:shadow-float-md hover:border-brand-200 transition-all cursor-pointer group"
     >
       <Link href={`/notes/${id}`} className="block">
         {/* File type indicator + subject */}
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-body text-slate-400 uppercase tracking-wider">
+          <span className="text-xs font-body text-muted-foreground/80 uppercase tracking-wider">
             {subject}
           </span>
           <div className="flex items-center gap-1.5">
@@ -71,7 +71,7 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
               </span>
             )}
             <span
-              className={`text-xs font-body font-medium px-2 py-0.5 rounded-md ${fileType === "pdf" ? "bg-red-50 text-red-600" : fileType === "image" ? "bg-purple-50 text-purple-600" : "bg-slate-50 text-slate-600"}`}
+              className={`text-xs font-body font-medium px-2 py-0.5 rounded-md ${fileType === "pdf" ? "bg-red-50 text-red-600" : fileType === "image" ? "bg-purple-50 text-purple-600" : "bg-accent text-muted-foreground"}`}
             >
               {fileType.toUpperCase()}
             </span>
@@ -79,12 +79,12 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
         </div>
 
         {/* Title */}
-        <h3 className="font-display font-semibold text-slate-900 text-sm mb-1 line-clamp-2 leading-snug">
+        <h3 className="font-display font-semibold text-foreground text-sm mb-1 line-clamp-2 leading-snug">
           {title}
         </h3>
 
         {/* Uploader */}
-        <p className="text-xs font-body text-slate-400 mb-3">by {author.name} · {new Date(createdAt).toLocaleDateString()}</p>
+        <p className="text-xs font-body text-muted-foreground/80 mb-3">by {author.name} · {new Date(createdAt).toLocaleDateString()}</p>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-4">
@@ -97,20 +97,20 @@ export function NoteCard({ id, title, subject, author, tags, upvoteCount, _count
       </Link>
 
       {/* Footer stats */}
-      <div className="flex items-center gap-4 pt-3 border-t border-slate-50">
+      <div className="flex items-center gap-4 pt-3 border-t border-border">
         <button
           onClick={handleUpvote}
-          className="flex items-center gap-1.5 text-xs font-body text-slate-400 hover:text-brand-500 transition-colors group">
+          className="flex items-center gap-1.5 text-xs font-body text-muted-foreground/80 hover:text-brand-500 transition-colors group">
           <ThumbsUp size={13} className="group-hover:scale-110 transition-transform" />
           {upvoteCount}
         </button>
-        <button className="flex items-center gap-1.5 text-xs font-body text-slate-400 hover:text-brand-500 transition-colors">
+        <button className="flex items-center gap-1.5 text-xs font-body text-muted-foreground/80 hover:text-brand-500 transition-colors">
           <MessageCircle size={13} />
           {_count.comments}
         </button>
         <button
           onClick={handleStar}
-          className={`ml-auto text-xs font-body transition-colors ${favorited ? "text-amber-500" : "text-slate-400 hover:text-amber-500"}`}
+          className={`ml-auto text-xs font-body transition-colors ${favorited ? "text-amber-500" : "text-muted-foreground/80 hover:text-amber-500"}`}
           title={favorited ? "Remove from favorites" : "Save to favorites"}
         >
           <Star size={14} className={favorited ? "fill-amber-500" : ""} />

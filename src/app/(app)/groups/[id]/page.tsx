@@ -114,48 +114,48 @@ export default function GroupDetailPage() {
   if (loading) {
     return (
       <div className="max-w-5xl mx-auto space-y-4">
-        <div className="h-20 bg-white rounded-2xl border border-slate-100 shadow-card animate-pulse" />
-        <div className="h-96 bg-white rounded-2xl border border-slate-100 shadow-card animate-pulse" />
+        <div className="h-20 bg-card rounded-2xl border border-border shadow-card animate-pulse" />
+        <div className="h-96 bg-card rounded-2xl border border-border shadow-card animate-pulse" />
       </div>
     );
   }
 
   if (!group) {
-    return <div className="text-center py-20 text-slate-400 font-body">Group not found.</div>;
+    return <div className="text-center py-20 text-muted-foreground/80 font-body">Group not found.</div>;
   }
 
   return (
     <div className="max-w-5xl mx-auto space-y-5">
       {/* Header */}
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+      <div className="bg-card rounded-2xl border border-border shadow-card p-5">
         <div className="flex items-center gap-4">
-          <button onClick={() => router.push("/groups")} className="text-slate-400 hover:text-slate-600 transition-colors">
+          <button onClick={() => router.push("/groups")} className="text-muted-foreground/80 hover:text-foreground/80 transition-colors">
             <ArrowLeft size={20} />
           </button>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h1 className="font-display font-bold text-xl text-slate-900">{group.name}</h1>
+              <h1 className="font-display font-bold text-xl text-foreground">{group.name}</h1>
               {group.isClassGroup && group.section && (
                 <span className="text-[10px] bg-brand-50 text-brand-600 px-2 py-0.5 rounded font-body font-medium">{group.section}</span>
               )}
             </div>
-            <p className="text-xs font-body text-slate-400">
+            <p className="text-xs font-body text-muted-foreground/80">
               {group.subject} · {group._count.members} members · {group._count.notes} notes
             </p>
           </div>
-          <button onClick={copyInvite} className="flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-600 font-body text-xs px-4 py-2 rounded-xl hover:bg-slate-100 transition-colors">
+          <button onClick={copyInvite} className="flex items-center gap-2 bg-accent border border-border text-muted-foreground font-body text-xs px-4 py-2 rounded-xl hover:bg-secondary transition-colors">
             <Copy size={13} /> Invite
           </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 bg-secondary p-1 rounded-xl w-fit">
         {([["chat", MessageSquare, "Chat"], ["notes", FileText, "Notes"], ["members", Users, "Members"]] as const).map(([key, Icon, label]) => (
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-body font-medium transition-all ${tab === key ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-body font-medium transition-all ${tab === key ? "bg-card text-foreground shadow-sm dark:shadow-none" : "text-muted-foreground hover:text-foreground/90"}`}
           >
             <Icon size={14} /> {label}
           </button>
@@ -164,10 +164,10 @@ export default function GroupDetailPage() {
 
       {/* Chat */}
       {tab === "chat" && (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-card overflow-hidden flex flex-col" style={{ height: 480 }}>
+        <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden flex flex-col" style={{ height: 480 }}>
           <div className="flex-1 px-5 py-4 space-y-3 overflow-y-auto">
             {messages.length === 0 && (
-              <p className="text-center text-xs font-body text-slate-400 py-10">No messages yet. Start the conversation!</p>
+              <p className="text-center text-xs font-body text-muted-foreground/80 py-10">No messages yet. Start the conversation!</p>
             )}
             {messages.map((m) => (
               <div key={m.id} className={`flex gap-2 ${m.author.id === "me" ? "justify-end" : ""}`}>
@@ -180,9 +180,9 @@ export default function GroupDetailPage() {
                 )}
                 <div className="max-w-[75%]">
                   {m.author.id !== "me" && (
-                    <span className="text-[10px] font-display font-semibold text-slate-500 block mb-0.5">{m.author.name}</span>
+                    <span className="text-[10px] font-display font-semibold text-muted-foreground block mb-0.5">{m.author.name}</span>
                   )}
-                  <div className={`text-xs font-body leading-relaxed px-3 py-2 rounded-xl ${m.author.id === "me" ? "bg-brand-500 text-white rounded-br-sm" : "bg-slate-50 text-slate-700 rounded-bl-sm"}`}>
+                  <div className={`text-xs font-body leading-relaxed px-3 py-2 rounded-xl ${m.author.id === "me" ? "bg-brand-500 text-white rounded-br-sm" : "bg-accent text-foreground/90 rounded-bl-sm"}`}>
                     {m.text}
                   </div>
                 </div>
@@ -190,12 +190,12 @@ export default function GroupDetailPage() {
             ))}
             <div ref={bottomRef} />
           </div>
-          <div className="px-5 py-3 border-t border-slate-100 flex gap-2">
+          <div className="px-5 py-3 border-t border-border flex gap-2">
             <input
               value={input} onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="Type a message..."
-              className="flex-1 text-xs font-body bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-100 outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 placeholder:text-slate-400"
+              className="flex-1 text-xs font-body bg-accent rounded-xl px-3 py-2.5 border border-border outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 placeholder:text-muted-foreground/80"
             />
             <button onClick={sendMessage} disabled={sending || !input.trim()}
               className="w-8 h-8 bg-brand-500 rounded-xl flex items-center justify-center hover:bg-brand-600 disabled:opacity-40 shrink-0 self-end transition-colors">
@@ -212,7 +212,7 @@ export default function GroupDetailPage() {
           <div className="flex justify-end">
             <Link
               href={`/notes/upload?groupId=${id}`}
-              className="flex items-center gap-2 bg-brand-500 text-white font-body font-medium text-sm px-5 py-2.5 rounded-xl hover:bg-brand-600 transition-all shadow-md"
+              className="flex items-center gap-2 bg-brand-500 text-white font-body font-medium text-sm px-5 py-2.5 rounded-xl hover:bg-brand-600 transition-all shadow-md dark:shadow-none"
             >
               <Upload size={15} />
               Share Notes to Group
@@ -223,8 +223,8 @@ export default function GroupDetailPage() {
               group.notes.map((note: any) => <NoteCard key={note.id} {...note} />)
             ) : (
               <div className="col-span-full text-center py-16">
-                <BookOpen size={32} className="mx-auto text-slate-300 mb-3" />
-                <p className="text-sm font-body text-slate-400 mb-3">No notes shared in this group yet.</p>
+                <BookOpen size={32} className="mx-auto text-muted-foreground mb-3" />
+                <p className="text-sm font-body text-muted-foreground/80 mb-3">No notes shared in this group yet.</p>
                 <Link
                   href={`/notes/upload?groupId=${id}`}
                   className="inline-flex items-center gap-2 bg-brand-50 text-brand-600 font-body font-medium text-sm px-5 py-2.5 rounded-xl hover:bg-brand-100 transition-colors"
@@ -240,7 +240,7 @@ export default function GroupDetailPage() {
 
       {/* Members */}
       {tab === "members" && (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+        <div className="bg-card rounded-2xl border border-border shadow-card p-5">
           <div className="space-y-3">
             {group.members.map((m, i) => (
               <div key={i} className="flex items-center gap-3 py-2">
@@ -250,8 +250,8 @@ export default function GroupDetailPage() {
                   </span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-display font-semibold text-slate-900">{m.user.name}</p>
-                  <p className="text-xs font-body text-slate-400">
+                  <p className="text-sm font-display font-semibold text-foreground">{m.user.name}</p>
+                  <p className="text-xs font-body text-muted-foreground/80">
                     {m.user.section || "—"} · {m.user.karma} karma
                   </p>
                 </div>

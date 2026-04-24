@@ -30,17 +30,17 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
       {/* Left: Note viewer — takes 2 columns */}
       <div className="lg:col-span-2 space-y-5">
         {/* Note header */}
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-6">
+        <div className="bg-card rounded-2xl border border-border shadow-card p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <span className="text-xs font-body text-slate-400 uppercase tracking-wider block mb-1">
+              <span className="text-xs font-body text-muted-foreground/80 uppercase tracking-wider block mb-1">
                 {note.subject}
               </span>
-              <h1 className="font-display font-bold text-2xl text-slate-900">{note.title}</h1>
+              <h1 className="font-display font-bold text-2xl text-foreground">{note.title}</h1>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-body text-slate-400">
+          <div className="flex items-center gap-4 text-xs font-body text-muted-foreground/80">
             <span>By {note.author.name}</span>
             <span>·</span>
             <span>{new Date(note.createdAt).toLocaleDateString()}</span>
@@ -48,7 +48,7 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
         </div>
 
         {/* PDF viewer */}
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-card overflow-hidden" style={{ height: 600 }}>
+        <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden" style={{ height: 600 }}>
           <iframe
             src={note.fileUrl}
             className="w-full h-full border-none"
@@ -68,16 +68,16 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
 
         {/* Recall / Revise section */}
         {firstChunkId && (
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+          <div className="bg-card rounded-2xl border border-border shadow-card p-5">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-[10px] bg-purple-50 text-purple-600 font-body font-medium px-2 py-0.5 rounded-md">
                 RECALL
               </span>
-              <h3 className="font-display font-semibold text-slate-800 text-sm">
+              <h3 className="font-display font-semibold text-card-foreground text-sm">
                 Active Recall
               </h3>
             </div>
-            <p className="text-xs font-body text-slate-400 mb-3">
+            <p className="text-xs font-body text-muted-foreground/80 mb-3">
               Generate flashcards &amp; quizzes to strengthen memory.
             </p>
             <RecallCard noteChunkId={firstChunkId} noteId={id} />

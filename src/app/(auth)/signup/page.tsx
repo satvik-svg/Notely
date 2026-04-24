@@ -36,48 +36,48 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-secondary flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <div className="flex-1 flex items-center justify-center p-6 pt-24">
-        <div className="bg-white p-8 rounded-3xl shadow-float-md w-full max-w-md">
-          <h1 className="font-display font-bold text-3xl text-slate-900 mb-2 text-center">Create account</h1>
-          <p className="font-body text-slate-500 mb-8 text-center text-sm">Start your shared learning journey</p>
+        <div className="bg-card p-8 rounded-3xl shadow-float-md w-full max-w-md border border-border">
+          <h1 className="font-display font-bold text-3xl text-foreground mb-2 text-center">Create account</h1>
+          <p className="font-body text-muted-foreground mb-8 text-center text-sm">Start your shared learning journey</p>
           
           <form className="space-y-5" onSubmit={handleSubmit}>
             {error && <p className="text-red-500 text-sm font-body text-center">{error}</p>}
             <div className="space-y-2">
-              <label className="text-sm font-display font-semibold text-slate-700">Full Name</label>
+              <label className="text-sm font-display font-semibold text-card-foreground">Full Name</label>
               <input 
                 type="text" 
                 placeholder="John Doe" 
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+                className="w-full text-sm font-body bg-secondary text-foreground rounded-xl px-4 py-3 border border-border outline-none focus:border-ring transition-all"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-display font-semibold text-slate-700">Email address</label>
+              <label className="text-sm font-display font-semibold text-card-foreground">Email address</label>
               <input 
                 type="email" 
                 placeholder="student@college.edu" 
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+                className="w-full text-sm font-body bg-secondary text-foreground rounded-xl px-4 py-3 border border-border outline-none focus:border-ring transition-all"
               />
             </div>
             
             <div className="space-y-2">
-               <label className="text-sm font-display font-semibold text-slate-700">Password</label>
+               <label className="text-sm font-display font-semibold text-card-foreground">Password</label>
                <input 
                  type="password" 
                  placeholder="••••••••" 
                  value={formData.password}
                  onChange={e => setFormData({ ...formData, password: e.target.value })}
                  required
-                 className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+                 className="w-full text-sm font-body bg-secondary text-foreground rounded-xl px-4 py-3 border border-border outline-none focus:border-ring transition-all"
                />
             </div>
             
@@ -90,7 +90,7 @@ export default function SignupPage() {
             </button>
           </form>
           
-          <p className="text-center text-sm font-body text-slate-500 mt-8">
+          <p className="text-center text-sm font-body text-muted-foreground mt-8">
             Already have an account? <Link href="/login" className="text-brand-500 hover:underline font-medium">Sign in</Link>
           </p>
         </div>

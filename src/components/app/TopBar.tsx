@@ -3,9 +3,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function TopBar() {
   return (
-    <header className="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0">
+    <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6 shrink-0">
       <div className="flex-1 max-w-md relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/80" size={16} />
         <input 
           type="text" 
           placeholder="Search notes, groups..." 
@@ -14,7 +14,7 @@ export function TopBar() {
       </div>
       <div className="flex items-center gap-4">
         <ThemeToggle />
-        <button className="relative text-slate-400 hover:text-slate-600 transition-colors">
+        <button className="relative text-muted-foreground/80 hover:text-foreground/80 transition-colors">
           <Bell size={20} />
           <span className="absolute top-0 right-0 w-2 h-2 bg-brand-500 rounded-full border border-background"></span>
         </button>

@@ -25,7 +25,7 @@ export function Sidebar() {
   const karma = (session?.user as any)?.karma || 0;
 
   return (
-    <aside className="w-60 bg-white border-r border-slate-100 flex flex-col py-6 px-3 shrink-0">
+    <aside className="w-60 bg-card border-r border-border flex flex-col py-6 px-3 shrink-0">
       <div className="flex items-center gap-3 px-3 mb-8">
         <div className="relative w-8 h-8 group-hover:scale-105 transition-transform">
           <Image
@@ -35,7 +35,7 @@ export function Sidebar() {
             className="object-contain drop-shadow-sm"
           />
         </div>
-        <span className="font-display font-semibold text-slate-900 tracking-tight text-lg">NoteShare</span>
+        <span className="font-display font-semibold text-foreground tracking-tight text-lg">NoteShare</span>
       </div>
 
       <nav className="space-y-1 flex-1">
@@ -48,8 +48,8 @@ export function Sidebar() {
               className={clsx(
                 "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-body transition-all duration-300",
                 active
-                  ? "bg-brand-50 text-brand-600 font-medium shadow-sm"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:translate-x-1"
+                  ? "bg-brand-50 text-brand-600 font-medium shadow-sm dark:shadow-none"
+                  : "text-muted-foreground hover:bg-accent hover:text-foreground hover:translate-x-1"
               )}
             >
               <Icon size={16} strokeWidth={active ? 2.5 : 2} className={clsx("transition-transform duration-300", active ? "scale-110" : "group-hover:scale-110")} />
@@ -60,20 +60,20 @@ export function Sidebar() {
       </nav>
 
       {/* User at bottom */}
-      <div className="px-3 pt-4 border-t border-slate-100">
+      <div className="px-3 pt-4 border-t border-border">
         <div className="flex items-center gap-2.5 mb-4">
           <div className="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
             <span className="text-xs font-display font-bold text-brand-600">{userInitial}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-display font-semibold text-slate-800 truncate">{session?.user?.name || "User"}</p>
+            <p className="text-xs font-display font-semibold text-card-foreground truncate">{session?.user?.name || "User"}</p>
             <p className="text-[10px] font-body text-brand-500">⬆ {karma} karma</p>
           </div>
         </div>
 
         <button
           onClick={() => signOut()}
-          className="w-full flex items-center gap-2 text-xs font-body text-slate-400 hover:text-red-500 transition-colors px-1"
+          className="w-full flex items-center gap-2 text-xs font-body text-muted-foreground/80 hover:text-red-500 transition-colors px-1"
         >
           <LogOut size={14} />
           Sign out

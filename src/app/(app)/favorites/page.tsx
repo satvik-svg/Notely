@@ -23,9 +23,9 @@ export default function FavoritesPage() {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <Star size={24} className="text-amber-500 fill-amber-500" />
-          <h1 className="font-display font-bold text-3xl text-slate-900">My Saved Notes</h1>
+          <h1 className="font-display font-bold text-3xl text-foreground">My Saved Notes</h1>
         </div>
-        <p className="text-slate-500 font-body text-sm">Notes you&apos;ve starred for quick access.</p>
+        <p className="text-muted-foreground font-body text-sm">Notes you&apos;ve starred for quick access.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -37,8 +37,8 @@ export default function FavoritesPage() {
           ))
         ) : (
           <div className="col-span-full text-center py-20">
-            <Star size={40} className="mx-auto text-slate-300 mb-4" />
-            <p className="text-slate-400 font-body">No saved notes yet. Star a note from the Browse page to save it here.</p>
+            <Star size={40} className="mx-auto text-muted-foreground mb-4" />
+            <p className="text-muted-foreground/80 font-body">No saved notes yet. Star a note from the Browse page to save it here.</p>
           </div>
         )}
       </div>

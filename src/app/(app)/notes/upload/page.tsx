@@ -71,21 +71,21 @@ function UploadPageContent() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="font-display font-bold text-2xl text-slate-900">Upload Notes</h1>
-        <p className="text-sm font-body text-slate-500">Share your material and earn karma!</p>
+        <h1 className="font-display font-bold text-2xl text-foreground">Upload Notes</h1>
+        <p className="text-sm font-body text-muted-foreground">Share your material and earn karma!</p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-6">
+      <div className="bg-card rounded-2xl border border-border shadow-card p-6">
         <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); handleUpload(); }}>
           <div className="space-y-2">
-             <label htmlFor="note-title" className="text-sm font-display font-semibold text-slate-700">Title</label>
+             <label htmlFor="note-title" className="text-sm font-display font-semibold text-foreground/90">Title</label>
              <input
                id="note-title"
                type="text"
                placeholder={isPYQ ? "e.g. DBMS End-Sem 2024 Question Paper" : "e.g. Operating Systems Unit 1 Summary"}
                value={title}
                onChange={(e) => setTitle(e.target.value)}
-               className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+               className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all"
              />
           </div>
 
@@ -99,9 +99,9 @@ function UploadPageContent() {
             <button
               type="button"
               onClick={() => setIsPYQ(!isPYQ)}
-              className={`relative w-11 h-6 rounded-full transition-colors ${isPYQ ? "bg-amber-500" : "bg-slate-300"}`}
+              className={`relative w-11 h-6 rounded-full transition-colors ${isPYQ ? "bg-amber-500" : "bg-muted"}`}
             >
-              <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isPYQ ? "left-[22px]" : "left-0.5"}`} />
+              <span className={`absolute top-0.5 w-5 h-5 bg-card rounded-full shadow transition-transform ${isPYQ ? "left-[22px]" : "left-0.5"}`} />
             </button>
           </div>
 
@@ -109,16 +109,16 @@ function UploadPageContent() {
           {isPYQ && (
             <div className="grid grid-cols-2 gap-4 bg-amber-50/50 border border-amber-100 rounded-xl p-4">
               <div className="space-y-1.5">
-                <label className="text-sm font-display font-semibold text-slate-700">Exam Year</label>
-                <select value={examYear} onChange={(e) => setExamYear(parseInt(e.target.value))} className="w-full text-sm font-body bg-white rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all">
+                <label className="text-sm font-display font-semibold text-foreground/90">Exam Year</label>
+                <select value={examYear} onChange={(e) => setExamYear(parseInt(e.target.value))} className="w-full text-sm font-body bg-card rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all">
                   {EXAM_YEARS.map((y) => (
                     <option key={y} value={y}>{y}</option>
                   ))}
                 </select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-display font-semibold text-slate-700">Exam Type</label>
-                <select value={examType} onChange={(e) => setExamType(e.target.value)} className="w-full text-sm font-body bg-white rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all">
+                <label className="text-sm font-display font-semibold text-foreground/90">Exam Type</label>
+                <select value={examType} onChange={(e) => setExamType(e.target.value)} className="w-full text-sm font-body bg-card rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all">
                   {EXAM_TYPES.map((t) => (
                     <option key={t} value={t}>{t}</option>
                   ))}
@@ -128,12 +128,12 @@ function UploadPageContent() {
           )}
 
           <div className="space-y-2">
-            <label htmlFor="note-subject" className="text-sm font-display font-semibold text-slate-700">Subject</label>
+            <label htmlFor="note-subject" className="text-sm font-display font-semibold text-foreground/90">Subject</label>
             <select
               id="note-subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all"
+              className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all"
             >
               {SUBJECTS.map(s => (
                 <option key={s} value={s}>{s}</option>
@@ -142,17 +142,17 @@ function UploadPageContent() {
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm font-display font-semibold text-slate-700">Tags</p>
+            <p className="text-sm font-display font-semibold text-foreground/90">Tags</p>
             <SmartTagInput tags={tags} setTags={setTags} noteTitle={title} />
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm font-display font-semibold text-slate-700">File</p>
-            <div className="border-2 border-dashed border-slate-200 rounded-2xl p-6 bg-slate-50">
-              <div className="flex flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-center">
-                <UploadCloud size={24} className="mb-2 text-slate-400" />
-                <p className="text-sm font-body font-medium text-slate-700">Upload to cloud storage</p>
-                <p className="text-xs font-body text-slate-400 mt-1">PDF, images, text files. Max depends on type.</p>
+            <p className="text-sm font-display font-semibold text-foreground/90">File</p>
+            <div className="border-2 border-dashed border-border rounded-2xl p-6 bg-accent">
+              <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card p-6 text-center">
+                <UploadCloud size={24} className="mb-2 text-muted-foreground/80" />
+                <p className="text-sm font-body font-medium text-foreground/90">Upload to cloud storage</p>
+                <p className="text-xs font-body text-muted-foreground/80 mt-1">PDF, images, text files. Max depends on type.</p>
                 <div className="mt-3">
                   <UploadButton
                     endpoint="noteUploader"
@@ -192,7 +192,7 @@ function UploadPageContent() {
               )}
 
               {!uploadedFileName && (
-                <div className="mt-3 flex items-center justify-center text-slate-400">
+                <div className="mt-3 flex items-center justify-center text-muted-foreground/80">
                   <UploadCloud size={16} className="mr-2" />
                   <span className="text-xs font-body">No file uploaded yet</span>
                 </div>
@@ -215,7 +215,7 @@ function UploadPageContent() {
 
 export default function UploadPage() {
   return (
-    <Suspense fallback={<div className="max-w-2xl mx-auto"><div className="h-96 bg-white rounded-2xl border border-slate-100 shadow-card animate-pulse" /></div>}>
+    <Suspense fallback={<div className="max-w-2xl mx-auto"><div className="h-96 bg-card rounded-2xl border border-border shadow-card animate-pulse" /></div>}>
       <UploadPageContent />
     </Suspense>
   );

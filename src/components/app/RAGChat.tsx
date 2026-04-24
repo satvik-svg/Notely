@@ -66,10 +66,10 @@ export function RAGChat({ noteId }: { noteId: string }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-card overflow-hidden">
-      <div className="flex items-center gap-2 px-5 py-4 border-b border-slate-50 bg-slate-50/50">
+    <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden">
+      <div className="flex items-center gap-2 px-5 py-4 border-b border-border bg-accent/50">
         <Bot size={14} className="text-brand-500" />
-        <h3 className="font-display font-semibold text-slate-800 text-sm">Notes Doubt Bot</h3>
+        <h3 className="font-display font-semibold text-card-foreground text-sm">Notes Doubt Bot</h3>
         <span className="ml-auto text-[10px] font-body bg-brand-50 text-brand-600 px-2 py-0.5 rounded-md">Chatbot</span>
       </div>
 
@@ -77,7 +77,7 @@ export function RAGChat({ noteId }: { noteId: string }) {
       <div className="px-5 py-4 space-y-3 min-h-[180px] max-h-80 overflow-y-auto">
         {messages.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-xs font-body text-slate-400">Ask any doubt about this note</p>
+            <p className="text-xs font-body text-muted-foreground/80">Ask any doubt about this note</p>
             <div className="flex flex-wrap gap-2 justify-center mt-3">
               {["Explain this topic simply", "Give me exam-focused points", "What should I revise first?"].map((s) => (
                 <button key={s} onClick={() => setInput(s)}
@@ -95,7 +95,7 @@ export function RAGChat({ noteId }: { noteId: string }) {
                 <Bot size={11} className="text-brand-600" />
               </div>
             )}
-            <div className={`max-w-[80%] text-xs font-body leading-relaxed px-3 py-2 rounded-xl ${m.role === "user" ? "bg-brand-500 text-white rounded-br-sm" : "bg-slate-50 text-slate-700 rounded-bl-sm"}`}>
+            <div className={`max-w-[80%] text-xs font-body leading-relaxed px-3 py-2 rounded-xl ${m.role === "user" ? "bg-brand-500 text-white rounded-br-sm" : "bg-accent text-foreground/90 rounded-bl-sm"}`}>
               {m.content || (streaming && i === messages.length - 1 ? "▋" : "")}
             </div>
           </div>
@@ -104,11 +104,11 @@ export function RAGChat({ noteId }: { noteId: string }) {
       </div>
 
       {/* Input */}
-      <div className="px-5 py-3 border-t border-slate-50 flex gap-2">
+      <div className="px-5 py-3 border-t border-border flex gap-2">
         <input value={input} onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && ask()}
           placeholder="Type your doubt about this note..."
-          className="flex-1 text-xs font-body bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-100 outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 placeholder:text-slate-400"
+          className="flex-1 text-xs font-body bg-accent rounded-xl px-3 py-2.5 border border-border outline-none focus:border-brand-300 focus:ring-1 focus:ring-brand-100 placeholder:text-muted-foreground/80"
         />
         <button onClick={ask} disabled={streaming || !input.trim()}
           className="w-8 h-8 bg-brand-500 rounded-xl flex items-center justify-center hover:bg-brand-600 disabled:opacity-40 shrink-0 self-end">

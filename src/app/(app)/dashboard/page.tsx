@@ -33,10 +33,10 @@ export default function DashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
             >
-                <h1 className="font-display font-bold text-3xl text-slate-900 tracking-tight">
+                <h1 className="font-display font-bold text-3xl text-foreground tracking-tight">
                     Welcome back, {userName}
                 </h1>
-                <p className="text-slate-500 font-body text-sm mt-1">
+                <p className="text-muted-foreground font-body text-sm mt-1">
                     Here&apos;s your study progress at a glance.
                 </p>
             </motion.div>
@@ -69,27 +69,27 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Longest streak */}
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+                <div className="bg-card rounded-2xl border border-border shadow-card p-5">
                     <div className="flex items-center gap-2 mb-3">
                         <Trophy size={18} className="text-amber-500" />
-                        <span className="font-body text-sm text-slate-500 font-medium">Best Streak</span>
+                        <span className="font-body text-sm text-muted-foreground font-medium">Best Streak</span>
                     </div>
-                    <p className="font-display font-bold text-3xl text-slate-900">
+                    <p className="font-display font-bold text-3xl text-foreground">
                         {streakLoaded ? streak.longestStreak : "—"}
                     </p>
-                    <p className="font-body text-xs text-slate-400 mt-1">Your personal record</p>
+                    <p className="font-body text-xs text-muted-foreground/80 mt-1">Your personal record</p>
                 </div>
 
                 {/* Karma */}
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-card p-5">
+                <div className="bg-card rounded-2xl border border-border shadow-card p-5">
                     <div className="flex items-center gap-2 mb-3">
                         <TrendingUp size={18} className="text-brand-500" />
-                        <span className="font-body text-sm text-slate-500 font-medium">Karma</span>
+                        <span className="font-body text-sm text-muted-foreground font-medium">Karma</span>
                     </div>
-                    <p className="font-display font-bold text-3xl text-slate-900">
+                    <p className="font-display font-bold text-3xl text-foreground">
                         {(session?.user as any)?.karma ?? 0}
                     </p>
-                    <p className="font-body text-xs text-slate-400 mt-1">Upload notes to earn more</p>
+                    <p className="font-body text-xs text-muted-foreground/80 mt-1">Upload notes to earn more</p>
                 </div>
             </motion.div>
         </div>

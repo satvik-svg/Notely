@@ -138,20 +138,20 @@ export default function GroupsPage() {
     <div>
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h1 className="font-display font-bold text-3xl text-slate-900 mb-2">Study Groups</h1>
-          <p className="font-body text-slate-500 text-sm">Join a class group or create your own.</p>
+          <h1 className="font-display font-bold text-3xl text-foreground mb-2">Study Groups</h1>
+          <p className="font-body text-muted-foreground text-sm">Join a class group or create your own.</p>
         </div>
         <div className="flex gap-3">
           <button
             onClick={() => setShowJoin(true)}
-            className="flex items-center gap-2 bg-white border border-slate-200 text-slate-700 font-body font-medium text-sm px-5 py-2.5 rounded-xl hover:bg-slate-50 transition-all"
+            className="flex items-center gap-2 bg-card border border-border text-foreground/90 font-body font-medium text-sm px-5 py-2.5 rounded-xl hover:bg-accent transition-all"
           >
             <Link2 size={15} />
             Join by Code
           </button>
           <button
             onClick={() => setShowCreate(true)}
-            className="flex items-center gap-2 bg-brand-500 text-white font-body font-medium text-sm px-6 py-2.5 rounded-xl hover:bg-brand-600 transition-all shadow-md"
+            className="flex items-center gap-2 bg-brand-500 text-white font-body font-medium text-sm px-6 py-2.5 rounded-xl hover:bg-brand-600 transition-all shadow-md dark:shadow-none"
           >
             <Plus size={15} />
             Create Group
@@ -162,17 +162,17 @@ export default function GroupsPage() {
       {/* Join by code modal */}
       {showJoin && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-float-md p-6 w-full max-w-md">
+          <div className="bg-card rounded-2xl shadow-float-md p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-display font-bold text-lg text-slate-900">Join by Invite</h2>
-              <button onClick={() => setShowJoin(false)} className="text-slate-400 hover:text-slate-600"><X size={20} /></button>
+              <h2 className="font-display font-bold text-lg text-foreground">Join by Invite</h2>
+              <button onClick={() => setShowJoin(false)} className="text-muted-foreground/80 hover:text-foreground/80"><X size={20} /></button>
             </div>
-            <p className="font-body text-sm text-slate-500 mb-4">Paste an invite code or full invite link.</p>
+            <p className="font-body text-sm text-muted-foreground mb-4">Paste an invite code or full invite link.</p>
             <input
               value={joinCode}
               onChange={(e) => setJoinCode(e.target.value)}
               placeholder="Invite code or URL..."
-              className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all mb-4"
+              className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all mb-4"
             />
             <button
               onClick={handleJoinByCode}
@@ -188,20 +188,20 @@ export default function GroupsPage() {
       {/* Create group modal */}
       {showCreate && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-float-md p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="bg-card rounded-2xl shadow-float-md p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-5">
-              <h2 className="font-display font-bold text-lg text-slate-900">Create Study Group</h2>
-              <button onClick={resetCreateForm} className="text-slate-400 hover:text-slate-600"><X size={20} /></button>
+              <h2 className="font-display font-bold text-lg text-foreground">Create Study Group</h2>
+              <button onClick={resetCreateForm} className="text-muted-foreground/80 hover:text-foreground/80"><X size={20} /></button>
             </div>
 
             {createdInvite ? (
               /* Success state — show invite link */
               <div className="text-center py-4">
                 <CheckCircle size={40} className="text-green-500 mx-auto mb-4" />
-                <h3 className="font-display font-bold text-lg text-slate-900 mb-2">Group Created</h3>
-                <p className="font-body text-sm text-slate-500 mb-4">Share this invite link with your classmates:</p>
-                <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3">
-                  <input readOnly value={inviteUrl} className="flex-1 text-xs font-body bg-transparent outline-none text-slate-700" />
+                <h3 className="font-display font-bold text-lg text-foreground mb-2">Group Created</h3>
+                <p className="font-body text-sm text-muted-foreground mb-4">Share this invite link with your classmates:</p>
+                <div className="flex items-center gap-2 bg-accent border border-border rounded-xl px-4 py-3">
+                  <input readOnly value={inviteUrl} className="flex-1 text-xs font-body bg-transparent outline-none text-foreground/90" />
                   <button
                     onClick={() => { navigator.clipboard.writeText(inviteUrl); toast.success("Copied!"); }}
                     className="text-brand-500 hover:text-brand-600"
@@ -217,16 +217,16 @@ export default function GroupsPage() {
               /* Form */
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-display font-semibold text-slate-700">Group Name</label>
-                  <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. CS-A Study Circle" className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all" />
+                  <label className="text-sm font-display font-semibold text-foreground/90">Group Name</label>
+                  <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. CS-A Study Circle" className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-display font-semibold text-slate-700">Description</label>
-                  <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Optional description..." rows={2} className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all resize-none" />
+                  <label className="text-sm font-display font-semibold text-foreground/90">Description</label>
+                  <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Optional description..." rows={2} className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all resize-none" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-display font-semibold text-slate-700">Subject</label>
-                  <select value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all">
+                  <label className="text-sm font-display font-semibold text-foreground/90">Subject</label>
+                  <select value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all">
                     {["General", "DBMS", "OS", "CN", "DSA", "Maths", "Physics", "Chemistry"].map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
@@ -236,19 +236,19 @@ export default function GroupsPage() {
                 {/* Toggles */}
                 <div className="flex items-center gap-6">
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={isClassGroup} onChange={(e) => setIsClassGroup(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-brand-500 focus:ring-brand-500" />
-                    <span className="text-sm font-body text-slate-700">This is a Class Group</span>
+                    <input type="checkbox" checked={isClassGroup} onChange={(e) => setIsClassGroup(e.target.checked)} className="w-4 h-4 rounded border-border text-brand-500 focus:ring-brand-500" />
+                    <span className="text-sm font-body text-foreground/90">This is a Class Group</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-brand-500 focus:ring-brand-500" />
-                    <span className="text-sm font-body text-slate-700">Private (invite only)</span>
+                    <input type="checkbox" checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} className="w-4 h-4 rounded border-border text-brand-500 focus:ring-brand-500" />
+                    <span className="text-sm font-body text-foreground/90">Private (invite only)</span>
                   </label>
                 </div>
 
                 {isClassGroup && (
                   <div className="space-y-1.5">
-                    <label className="text-sm font-display font-semibold text-slate-700">Section</label>
-                    <select value={section} onChange={(e) => setSection(e.target.value)} className="w-full text-sm font-body bg-slate-50 rounded-xl px-4 py-3 border border-slate-100 outline-none focus:border-brand-300 transition-all">
+                    <label className="text-sm font-display font-semibold text-foreground/90">Section</label>
+                    <select value={section} onChange={(e) => setSection(e.target.value)} className="w-full text-sm font-body bg-accent rounded-xl px-4 py-3 border border-border outline-none focus:border-brand-300 transition-all">
                       {SECTIONS.map((s) => (
                         <option key={s} value={s}>{s}</option>
                       ))}
@@ -273,7 +273,7 @@ export default function GroupsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-48 bg-white rounded-2xl border border-slate-100 shadow-card animate-pulse" />
+            <div key={i} className="h-48 bg-card rounded-2xl border border-border shadow-card animate-pulse" />
           ))
         ) : groups.length > 0 ? (
           groups.map((group) => (
@@ -292,8 +292,8 @@ export default function GroupsPage() {
           ))
         ) : (
           <div className="col-span-full text-center py-20">
-            <Users size={40} className="mx-auto text-slate-300 mb-4" />
-            <p className="text-slate-400 font-body">No study groups yet. Start one!</p>
+            <Users size={40} className="mx-auto text-muted-foreground mb-4" />
+            <p className="text-muted-foreground/80 font-body">No study groups yet. Start one!</p>
           </div>
         )}
       </div>

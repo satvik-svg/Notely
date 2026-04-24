@@ -49,18 +49,18 @@ export default function PYQPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <FileText size={24} className="text-brand-500" />
-            <h1 className="font-display font-bold text-3xl text-slate-900">PYQ Papers</h1>
+            <h1 className="font-display font-bold text-3xl text-foreground">PYQ Papers</h1>
           </div>
-          <p className="text-slate-500 font-body text-sm">Previous year question papers — your best exam prep resource.</p>
+          <p className="text-muted-foreground font-body text-sm">Previous year question papers — your best exam prep resource.</p>
         </div>
         <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" size={18} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/80 group-focus-within:text-brand-500 transition-colors" size={18} />
           <input
             type="text"
             placeholder="Search PYQs..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-50 shadow-sm transition-all w-full md:w-64 text-sm font-body"
+            className="pl-10 pr-4 py-2.5 bg-card border border-border rounded-2xl outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-50 shadow-sm dark:shadow-none transition-all w-full md:w-64 text-sm font-body"
           />
         </div>
       </div>
@@ -68,15 +68,15 @@ export default function PYQPage() {
       {/* Year filter */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Calendar size={14} className="text-slate-500" />
-          <span className="text-xs font-display font-semibold text-slate-600 uppercase tracking-wider">Year</span>
+          <Calendar size={14} className="text-muted-foreground" />
+          <span className="text-xs font-display font-semibold text-muted-foreground uppercase tracking-wider">Year</span>
         </div>
         <div className="flex gap-2 flex-wrap">
           {YEARS.map((y) => (
             <button
               key={y}
               onClick={() => setActiveYear(y)}
-              className={`text-[11px] font-body font-medium px-4 py-2 rounded-xl transition-all ${activeYear === y ? "bg-brand-500 text-white shadow-md" : "bg-white text-slate-600 border border-slate-200 hover:border-brand-300"}`}
+              className={`text-[11px] font-body font-medium px-4 py-2 rounded-xl transition-all ${activeYear === y ? "bg-brand-500 text-white shadow-md dark:shadow-none" : "bg-card text-muted-foreground border border-border hover:border-brand-300"}`}
             >
               {y}
             </button>
@@ -90,7 +90,7 @@ export default function PYQPage() {
           <button
             key={s}
             onClick={() => setActiveSubject(s)}
-            className={`text-[11px] font-body font-medium px-4 py-2 rounded-xl transition-all ${activeSubject === s ? "bg-slate-900 text-white shadow-md" : "bg-white text-slate-600 border border-slate-200 hover:border-slate-400"}`}
+            className={`text-[11px] font-body font-medium px-4 py-2 rounded-xl transition-all ${activeSubject === s ? "bg-foreground text-background shadow-md dark:shadow-none" : "bg-card text-muted-foreground border border-border hover:border-border"}`}
           >
             {s}
           </button>
@@ -107,8 +107,8 @@ export default function PYQPage() {
           ))
         ) : (
           <div className="col-span-full text-center py-20">
-            <FileText size={40} className="mx-auto text-slate-300 mb-4" />
-            <p className="text-slate-400 font-body">No PYQs found for this filter. Be the first to upload!</p>
+            <FileText size={40} className="mx-auto text-muted-foreground mb-4" />
+            <p className="text-muted-foreground/80 font-body">No PYQs found for this filter. Be the first to upload!</p>
           </div>
         )}
       </div>
